@@ -1,0 +1,50 @@
+{
+  "ml_spare::IEF1ZZZ": {
+    "category": "ml_spare",
+    "material_group": "IEF1ZZZ",
+    "critical_stock": 2.0,
+    "reorder_quantity": 10.0,
+    "active": true,
+    "updated_at": "2026-05-14 11:30:39"
+  },
+  "ml_spare::I4Y1504": {
+    "category": "ml_spare",
+    "material_group": "I4Y1504",
+    "critical_stock": 2.0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-14 11:30:57"
+  },
+  "ml_spare::I32Q000": {
+    "category": "ml_spare",
+    "material_group": "I32Q000",
+    "critical_stock": 1.0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-14 11:31:30"
+  },
+  "ml_spare::IE5JZZZ": {
+    "category": "ml_spare",
+    "material_group": "IE5JZZZ",
+    "critical_stock": 2.0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-14 11:32:14"
+  },
+  "ml_spare::I7LC504": {
+    "category": "ml_spare",
+    "material_group": "I7LC504",
+    "critical_stock": 2.0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-14 11:32:19"
+  },
+  "ml_spare::IE00000": {
+    "category": "ml_spare",
+    "material_group": "IE00000",
+    "critical_stock": 2.0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-14 11:32:26"
+  }
+}

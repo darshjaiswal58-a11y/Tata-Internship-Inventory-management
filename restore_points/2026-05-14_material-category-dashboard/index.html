@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tata Inventory Criteria Checker</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Tata Motors Internal</p>
+        <h1>Inventory Criteria Checker</h1>
+      </div>
+      <div class="top-actions">
+        <nav>
+          <a href="#dashboard" id="dashboardLink">Dashboard</a>
+          <a href="#upload">Upload</a>
+          <a href="#criteria">Criteria</a>
+          <a href="#reports">Reports</a>
+        </nav>
+        <div id="userBadge" class="user-badge"></div>
+        <button id="logoutBtn" class="secondary" type="button">Logout</button>
+      </div>
+    </header>
+
+    <section id="loginScreen" class="login-screen">
+      <form id="loginForm" class="login-card">
+        <p class="eyebrow">Secure Access</p>
+        <h2>Login To Continue</h2>
+        <label>
+          Email
+          <input name="email" type="text" placeholder="admin@tatamotors.com" required>
+        </label>
+        <label>
+          Password
+          <input name="password" type="password" placeholder="admin123" required>
+        </label>
+        <button type="submit">Login</button>
+        <div id="loginStatus" class="status"></div>
+        <div class="demo-logins">
+          <strong>Demo users</strong>
+          <span>Admin: admin@tatamotors.com / admin123</span>
+          <span>Employee: employee@tatamotors.com / employee123</span>
+        </div>
+      </form>
+    </section>
+
+    <main>
+      <section id="dashboard" class="category-dashboard">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Automated Stock Dashboard</p>
+            <h2>Choose Inventory Area</h2>
+          </div>
+          <p class="hint">Upload the daily Excel under the correct area. The cards update automatically from uploaded stock, minimum stock criteria, and daily usage rows.</p>
+        </div>
+        <div class="category-cards">
+          <button class="category-card" type="button" data-category="ml_spare">
+            <span>M/L Spare</span>
+            <strong id="mlSpareMaterials">0</strong>
+            <small>Total stock items</small>
+            <div>
+              <b id="mlSpareCriteria">0</b> stock items with minimum criteria
+            </div>
+            <div>
+              <b id="mlSpareActive">0</b> active/used stocks in latest upload
+            </div>
+            <div>
+              <b id="mlSpareLow">0</b> low-stock items
+            </div>
+          </button>
+          <button class="category-card" type="button" data-category="tools">
+            <span>Tools</span>
+            <strong id="toolsMaterials">0</strong>
+            <small>Total stock items</small>
+            <div>
+              <b id="toolsCriteria">0</b> stock items with minimum criteria
+            </div>
+            <div>
+              <b id="toolsActive">0</b> active/used stocks in latest upload
+            </div>
+            <div>
+              <b id="toolsLow">0</b> low-stock items
+            </div>
+          </button>
+        </div>
+
+        <section class="panel material-category-panel dashboard-material-category">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Material Category</p>
+              <h2>Part Type Filter</h2>
+            </div>
+            <p class="hint">Material groups come from the master Excel. Select a part type to review matching stock and critical parts.</p>
+          </div>
+          <div class="material-category-card">
+            <label>
+              Part Type / Material Group
+              <select id="materialGroupSelect">
+                <option value="">All material groups</option>
+              </select>
+            </label>
+            <article>
+              <span>Parts In Master Excel</span>
+              <strong id="groupSourceParts">0</strong>
+            </article>
+            <article>
+              <span>Uploaded Stock Items</span>
+              <strong id="groupTotalParts">0</strong>
+            </article>
+            <article>
+              <span>Minimum Criteria Set</span>
+              <strong id="groupCriteriaSet">0</strong>
+            </article>
+            <article>
+              <span>Critical Parts</span>
+              <strong id="groupCriticalParts">0</strong>
+            </article>
+            <article>
+              <span>Active Used Stocks</span>
+              <strong id="groupActiveStocks">0</strong>
+            </article>
+          </div>
+          <div class="critical-dashboard">
+            <form id="groupCriticalForm" class="critical-form admin-only">
+              <label>
+                Critical Stock Value
+                <input id="criticalStockInput" name="critical_stock" type="number" min="0" step="1" placeholder="Try 2, 5, or 10">
+              </label>
+              <label>
+                Reorder Quantity
+                <input id="groupReorderInput" name="reorder_quantity" type="number" min="0" step="1" placeholder="e.g. 10">
+              </label>
+              <button type="submit">Save Group Criteria</button>
+            </form>
+            <div id="criticalExamples" class="example-row"></div>
+            <p id="criticalStatus" class="status">Select a material group and enter a critical value to preview critical parts.</p>
+            <div class="table-wrap compact-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Material</th>
+                    <th>Material Group</th>
+                    <th>Part Name</th>
+                    <th>Current Stock</th>
+                    <th>Latest Movement</th>
+                    <th>Reason</th>
+                  </tr>
+                </thead>
+                <tbody id="groupCriticalRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <div id="workflow" class="workflow" hidden>
+        <section class="selected-area">
+          <div>
+            <p class="eyebrow">Selected Area</p>
+            <h2 id="selectedCategoryTitle">M/L Spare</h2>
+          </div>
+          <button id="changeCategoryBtn" class="secondary" type="button">Change Area</button>
+        </section>
+
+      <section class="stats" aria-label="Dashboard summary">
+        <article>
+          <span>Total Stock Items</span>
+          <strong id="materialsCount">0</strong>
+        </article>
+        <article>
+          <span>Minimum Criteria Set</span>
+          <strong id="criteriaCount">0</strong>
+        </article>
+        <article>
+          <span>Low Stock</span>
+          <strong id="lowStockCount">0</strong>
+        </article>
+        <article>
+          <span>Active Used Stocks</span>
+          <strong id="activeStockCount">0</strong>
+        </article>
+      </section>
+
+      <section id="upload" class="panel">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Daily Workflow</p>
+            <h2>Upload Stock Excel</h2>
+          </div>
+          <p class="hint">Required columns: Purchase Order Date, Entry Date, Material, Material Description, Quantity, Days Between, Valuated Stock.</p>
+        </div>
+        <form id="uploadForm" class="upload-box">
+          <input id="uploadCategory" name="category" type="hidden" value="ml_spare">
+          <input id="excelFile" name="file" type="file" accept=".xlsx" required>
+          <button type="submit">Process Excel</button>
+        </form>
+        <div id="uploadStatus" class="status"></div>
+      </section>
+
+      <section id="criteria" class="panel admin-only">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Criteria Manager</p>
+            <h2>Set Stock Criteria</h2>
+          </div>
+          <p id="criteriaHint" class="hint">The report includes materials where current stock is at or below the minimum stock.</p>
+        </div>
+        <div class="search-area">
+          <label>
+            Search Imported Materials
+            <input id="materialSearch" type="search" placeholder="Type material code or description">
+          </label>
+          <div id="materialResults" class="material-results"></div>
+        </div>
+        <form id="criteriaForm" class="criteria-grid">
+          <input id="criteriaCategory" name="category" type="hidden" value="ml_spare">
+          <label>
+            Material Code
+            <input name="material" placeholder="e.g. 18226010528" required>
+          </label>
+          <label>
+            Description
+            <input name="description" placeholder="Material description">
+          </label>
+          <label>
+            Minimum Stock
+            <input name="minimum_stock" type="number" min="0" step="1" required>
+          </label>
+          <label>
+            Reorder Quantity
+            <input name="reorder_quantity" type="number" min="0" step="1" required>
+          </label>
+          <label class="toggle">
+            <input name="active" type="checkbox" checked>
+            Active
+          </label>
+          <button type="submit">Save Criteria</button>
+        </form>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Material</th>
+                <th>Group</th>
+                <th>Description</th>
+                <th>Minimum Stock</th>
+                <th>Reorder Qty</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="criteriaRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="reports" class="panel">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Generated Output</p>
+            <h2>Upload History & Reports</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Uploaded At</th>
+                <th>File</th>
+                <th>Uploaded By</th>
+                <th>Rows Imported</th>
+                <th>Failed Criteria</th>
+                <th>No Criteria</th>
+                <th>Download</th>
+              </tr>
+            </thead>
+            <tbody id="uploadRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Latest Result</p>
+            <h2>AI Criteria Analysis</h2>
+          </div>
+          <p id="analysisSummary" class="hint">Upload an Excel sheet to analyze stock against saved criteria.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Material</th>
+                <th>Group</th>
+                <th>Description</th>
+                <th>Current</th>
+                <th>Minimum</th>
+                <th>Reorder Qty</th>
+                <th>Reason</th>
+              </tr>
+            </thead>
+            <tbody id="failedRows"></tbody>
+          </table>
+        </div>
+      </section>
+      </div>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

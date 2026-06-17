@@ -1,0 +1,18 @@
+{
+  "upload_id": "50e9180936",
+  "failed_rows": [
+    {
+      "material": "18226010528",
+      "description": "SOL.VALVE JMFH-5/2-D-3-C 151871 FESTO",
+      "current_stock": 2.0,
+      "minimum_stock": 5.0,
+      "reorder_quantity": 10.0,
+      "latest_quantity": 2.0,
+      "movement_type": "Received",
+      "entry_date": "2026-05-08",
+      "reason": "Current stock 2 is at or below minimum stock 5"
+    }
+  ],
+  "no_criteria_count": 2536,
+  "generated_at": "2026-05-11 21:28:37"
+}

@@ -1,0 +1,3556 @@
+{
+  "source_file": "E:\\downloads\\330_Eligible_Materials_Zone_Classification.xlsx",
+  "source_mtime": 1779421649.1077888,
+  "stock_parts_file": "D:\\tata_internship\\updated\\criteria matched\\180_Eligible_Materials_Updated_Usage.xlsx",
+  "stock_parts_mtime": 1780916319.55718,
+  "criteria_mtime": 1780634546.0690324,
+  "overrides_mtime": 1780998735.784493,
+  "loader_version": 9,
+  "sheet": "All Materials",
+  "counts": {
+    "red": 43,
+    "yellow": 56,
+    "green": 81,
+    "not_eligible": 0
+  },
+  "total_materials": 180,
+  "stock_parts_count": 180,
+  "eligible_materials": 180,
+  "critical_materials": 99,
+  "stock_part_summary": {
+    "row_count": 200,
+    "unique_count": 180,
+    "row_counts_by_plant": {
+      "3004": 177,
+      "3002": 23
+    },
+    "unique_counts_by_plant": {
+      "3004": 157,
+      "3002": 23
+    },
+    "material_rows": {
+      "90206211406": {
+        "plant": "3004",
+        "rows": 2
+      },
+      "90203613309": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "889020589922": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1156": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1154": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1145": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1135R": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1116": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1102": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1101": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1084": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1081": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1074": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1073R": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1073": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1071R": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1071": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1070R": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1069": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "8851DELF1065": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "885101990217": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "88275482841": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "881681029400": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "881499340300": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "881499156700": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "880025014402": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "87325030087": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "87219033573": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "87213091041": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "87213081266": {
+        "plant": "3004",
+        "rows": 2
+      },
+      "87210150810": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "770400000441": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "63339570452": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "62364304752": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "62364041361": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "62361007234": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "62344090128": {
+        "plant": "3004",
+        "rows": 3
+      },
+      "62300001217": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "62273631319": {
+        "plant": "3004",
+        "rows": 3
+      },
+      "62271800328": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "62271506240": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "62240810251": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "62191515639": {
+        "plant": "3004",
+        "rows": 2
+      },
+      "62191514831": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "62120100187": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "62060000367": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "611098908600": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "601506030115": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "59352940001": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "56506003216": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "55700010570": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "53200096483": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "53010510127": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "53010060661": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "39010244017": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "37800905088": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "36623305087": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "36623305079": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "36623305028": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "36623059329": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "36602550502": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "36601040004": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "36380118003": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "36380112501": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "36040513358A": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35881011041": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35881010168": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35841005073": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35808590075": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35808530510": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35802509608": {
+        "plant": "3004",
+        "rows": 2
+      },
+      "35801201472": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35801197068": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35801061395": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35801031064": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35801031052": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35801031050": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35801031047": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35801031046": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35801004529": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35800306386": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35800171065": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35800099003": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35751200089": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35608000188": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35608000185": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35602519075": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35602519072": {
+        "plant": "3004",
+        "rows": 6
+      },
+      "35602100365": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35601716159": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35601716155": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35121511507": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35071499403": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35071400407": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35070902409": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35070512007": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35070000812": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35067550011": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35066102007": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35034022204": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35033923056": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35024099651": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35024099642": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35024099600": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35020002890": {
+        "plant": "3004",
+        "rows": 2
+      },
+      "35020002881": {
+        "plant": "3004",
+        "rows": 4
+      },
+      "35020002857": {
+        "plant": "3004",
+        "rows": 3
+      },
+      "35020002059": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35013099209": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35013099195": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35013013193": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35013012197": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35013012146": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35013012120": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35013011328": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012875299": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012870203": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012870149": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012870068": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012852825": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012851951": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012851225": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012851210": {
+        "plant": "3004",
+        "rows": 2
+      },
+      "35012851209": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012851187": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012851179": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012851161": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012851152": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012851098": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012851080": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012851055": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012831020": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012799118": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012799096": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012799061": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012712187": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012712179": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012711920": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012711423": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012099019": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012030329": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012024272": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35012008099": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011299545": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011299197": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011290491": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011290386": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011280151": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011280143": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011219061": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011210412": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011200212": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011200131": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011200107": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011199192": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011199168": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011102075": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35011101249": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35010510111": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35010004207": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35010002859": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35000071879": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35000029501": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "35000009316": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35000009294": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35000007127": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "35000003491": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "33160331203": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "33160331041": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "33010330802": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "33010330608": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "33010330501": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "32000000835": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "32000000805": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "32000000804": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "32000000802": {
+        "plant": "3002",
+        "rows": 1
+      },
+      "31653113008": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "31010510000": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "31010503208": {
+        "plant": "3004",
+        "rows": 1
+      },
+      "299330080123": {
+        "plant": "3004",
+        "rows": 1
+      }
+    }
+  },
+  "material_groups": {
+    "I7LC504": {
+      "total": 2,
+      "eligible": 2,
+      "not_eligible": 0,
+      "red": 2,
+      "yellow": 0,
+      "green": 0,
+      "uploaded": 2,
+      "criteria": 2,
+      "active": 2,
+      "critical": 2
+    },
+    "IEFAZZZ": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 1,
+      "yellow": 0,
+      "green": 0,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 1
+    },
+    "IEGTZZZ": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 1,
+      "green": 0,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 1
+    },
+    "IEHAZZZ": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 0,
+      "green": 1,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 0
+    },
+    "IELB000": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 0,
+      "green": 1,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 0
+    },
+    "IEP42ZZ": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 1,
+      "green": 0,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 1
+    },
+    "IEP7000": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 0,
+      "green": 1,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 0
+    },
+    "IEY6ZZZ": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 0,
+      "green": 1,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 0
+    },
+    "IEZZ000": {
+      "total": 5,
+      "eligible": 5,
+      "not_eligible": 0,
+      "red": 1,
+      "yellow": 3,
+      "green": 1,
+      "uploaded": 5,
+      "criteria": 5,
+      "active": 5,
+      "critical": 4
+    },
+    "IKQ1000": {
+      "total": 3,
+      "eligible": 3,
+      "not_eligible": 0,
+      "red": 1,
+      "yellow": 0,
+      "green": 2,
+      "uploaded": 3,
+      "criteria": 3,
+      "active": 3,
+      "critical": 1
+    },
+    "IKQ5000": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 0,
+      "green": 1,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 0
+    },
+    "IKQ7000": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 1,
+      "green": 0,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 1
+    },
+    "IPTDZZZ": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 0,
+      "green": 1,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 0
+    },
+    "IRMG000": {
+      "total": 7,
+      "eligible": 7,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 2,
+      "green": 5,
+      "uploaded": 7,
+      "criteria": 7,
+      "active": 7,
+      "critical": 2
+    },
+    "M1Z3000": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 0,
+      "green": 1,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 0
+    },
+    "M4Q1000": {
+      "total": 2,
+      "eligible": 2,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 1,
+      "green": 1,
+      "uploaded": 2,
+      "criteria": 2,
+      "active": 2,
+      "critical": 1
+    },
+    "MB2D000": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 0,
+      "green": 1,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 0
+    },
+    "MB2J000": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 1,
+      "yellow": 0,
+      "green": 0,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 1
+    },
+    "ME00000": {
+      "total": 22,
+      "eligible": 22,
+      "not_eligible": 0,
+      "red": 6,
+      "yellow": 6,
+      "green": 10,
+      "uploaded": 22,
+      "criteria": 22,
+      "active": 22,
+      "critical": 12
+    },
+    "ME20000": {
+      "total": 2,
+      "eligible": 2,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 1,
+      "green": 1,
+      "uploaded": 2,
+      "criteria": 2,
+      "active": 2,
+      "critical": 1
+    },
+    "MF00000": {
+      "total": 122,
+      "eligible": 122,
+      "not_eligible": 0,
+      "red": 31,
+      "yellow": 40,
+      "green": 51,
+      "uploaded": 122,
+      "criteria": 122,
+      "active": 122,
+      "critical": 71
+    },
+    "Fast Moving": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 0,
+      "green": 1,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 0
+    },
+    "Medium Moving": {
+      "total": 1,
+      "eligible": 1,
+      "not_eligible": 0,
+      "red": 0,
+      "yellow": 0,
+      "green": 1,
+      "uploaded": 1,
+      "criteria": 1,
+      "active": 1,
+      "critical": 0
+    }
+  },
+  "materials": {
+    "90206211406": {
+      "material": "90206211406",
+      "description": "24V5A Power Supply 1606-XLE120E Rockwell",
+      "material_group": "I7LC504",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "90203613309": {
+      "material": "90203613309",
+      "description": "STICK-IT ROLL 5\"DIA-600 GRIT AL OXIDE",
+      "material_group": "I7LC504",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 164.0,
+      "usage_last_3_months": 92.0,
+      "usage_last_6_months": 164.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "889020589922": {
+      "material": "889020589922",
+      "description": "SICK~PHOTOE.PROX.SWITCH-GRTE18-P2462",
+      "material_group": "IEFAZZZ",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "8851DELF1156": {
+      "material": "8851DELF1156",
+      "description": "2 SPEED CT MOTOR 720/2800 RPM",
+      "material_group": "IEGTZZZ",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 1.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 1.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "8851DELF1154": {
+      "material": "8851DELF1154",
+      "description": "2 SPEED ABUS 720/2800 RPM 2TON",
+      "material_group": "IEHAZZZ",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "8851DELF1145": {
+      "material": "8851DELF1145",
+      "description": "NAMC-RM-E-MTR-3 HP SUBMERSIBLE",
+      "material_group": "IELB000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "8851DELF1135R": {
+      "material": "8851DELF1135R",
+      "description": "NAMC-RM-E-MTR-5 HP & 1500 RPM-RWD-EA",
+      "material_group": "IEP42ZZ",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "8851DELF1116": {
+      "material": "8851DELF1116",
+      "description": "NAMC-RM-E-MTR-30 HP & 1500 RPM",
+      "material_group": "IEP7000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 2.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 2.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "8851DELF1102": {
+      "material": "8851DELF1102",
+      "description": "NAMC-RM-E-MTR-2 HP & 3000 RPM",
+      "material_group": "IEY6ZZZ",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "8851DELF1101": {
+      "material": "8851DELF1101",
+      "description": "NAMC-RM-E-MTR-2 HP & 1500 RPM",
+      "material_group": "IEZZ000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "8851DELF1084": {
+      "material": "8851DELF1084",
+      "description": "NAMC-RM-E-MTR-1.50 HP & 1000 RPM",
+      "material_group": "IEZZ000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "8851DELF1081": {
+      "material": "8851DELF1081",
+      "description": "NAMC-RM-E-MTR-1 HP & 1000 RPM",
+      "material_group": "IEZZ000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "8851DELF1074": {
+      "material": "8851DELF1074",
+      "description": "NAMC-RM-E-MTR-.50 HP & 1500 RPM",
+      "material_group": "IEZZ000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 1.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 1.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "8851DELF1073R": {
+      "material": "8851DELF1073R",
+      "description": "NAMC-RM-E-MTR-.50 HP & 1000 RPM-RWD-EA",
+      "material_group": "IEZZ000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "8851DELF1073": {
+      "material": "8851DELF1073",
+      "description": "NAMC-RM-E-MTR-.50 HP & 1000 RPM",
+      "material_group": "IKQ1000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "8851DELF1071R": {
+      "material": "8851DELF1071R",
+      "description": "NAMC-RM-E-MTR-.25 HP & 1500 RPM-RWD-EA",
+      "material_group": "IKQ1000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "8851DELF1071": {
+      "material": "8851DELF1071",
+      "description": "NAMC-RM-E-MTR-.25 HP & 1500 RPM",
+      "material_group": "IKQ1000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 1.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 1.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "8851DELF1070R": {
+      "material": "8851DELF1070R",
+      "description": "NAMC-RM-E-MTR-.25 HP & 1000 RPM-RWD-EA",
+      "material_group": "IKQ5000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "8851DELF1069": {
+      "material": "8851DELF1069",
+      "description": "NAMC-RM-E-MTR-.25 HP & 750 RPM",
+      "material_group": "IKQ7000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "8851DELF1065": {
+      "material": "8851DELF1065",
+      "description": "NAMC-RM-E-MTR-1 HP & 1500 RPM",
+      "material_group": "IPTDZZZ",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "885101990217": {
+      "material": "885101990217",
+      "description": "PROLIFE 697 BS III LONG BLOCK",
+      "material_group": "IRMG000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "88275482841": {
+      "material": "88275482841",
+      "description": "Needle Nose Pliers 6\" TH95BCP",
+      "material_group": "IRMG000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "881681029400": {
+      "material": "881681029400",
+      "description": "BORING BAR D99.94 KIENINGER 7404072",
+      "material_group": "IRMG000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "881499340300": {
+      "material": "881499340300",
+      "description": "SwlExtnSocket12A/Fx1/2SQDRx150mmL IS7998",
+      "material_group": "IRMG000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 104.0,
+      "usage_last_3_months": 26.0,
+      "usage_last_6_months": 104.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "881499156700": {
+      "material": "881499156700",
+      "description": "CBN INSERT HDGN 060308 B NCR BN700",
+      "material_group": "IRMG000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "880025014402": {
+      "material": "880025014402",
+      "description": "SPOT FACE 25DIA",
+      "material_group": "IRMG000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 56.0,
+      "usage_last_3_months": 33.0,
+      "usage_last_6_months": 56.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "87325030087": {
+      "material": "87325030087",
+      "description": "BULL DOG GRIP GX8 IS2361",
+      "material_group": "IRMG000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 600.0,
+      "usage_last_3_months": 300.0,
+      "usage_last_6_months": 600.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "87219033573": {
+      "material": "87219033573",
+      "description": "Cont TIP HOLDER M6 35.0MM142.0001BINZEL",
+      "material_group": "M1Z3000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 550.0,
+      "usage_last_3_months": 400.0,
+      "usage_last_6_months": 550.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "87213091041": {
+      "material": "87213091041",
+      "description": "CONTACT TIP 0.8MM H/W 04651691500 IOL",
+      "material_group": "M4Q1000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 4000.0,
+      "usage_last_3_months": 2050.0,
+      "usage_last_6_months": 4000.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "87213081266": {
+      "material": "87213081266",
+      "description": "ABICOR ANTI SP.PASTE300GM 192.0058 GCE",
+      "material_group": "M4Q1000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 100.0,
+      "usage_last_3_months": 100.0,
+      "usage_last_6_months": 100.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "87210150810": {
+      "material": "87210150810",
+      "description": "Movable Arm C04-0200",
+      "material_group": "MB2D000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "770400000441": {
+      "material": "770400000441",
+      "description": "VIEWSONIC WIRELESS SCREEN CASTING KIT WP",
+      "material_group": "MB2J000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 5.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 5.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "63339570452": {
+      "material": "63339570452",
+      "description": "UVB 313 EL Lamp Premier Color Scan",
+      "material_group": "ME00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "62364304752": {
+      "material": "62364304752",
+      "description": "RCCB 2P2M  25A 10mA CC225Y HAGER",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 11.0,
+      "usage_last_3_months": 11.0,
+      "usage_last_6_months": 11.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "62364041361": {
+      "material": "62364041361",
+      "description": "ELCB/RCCB 25A 2P 30 MA A9N16201Schneider",
+      "material_group": "ME00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 148.0,
+      "usage_last_3_months": 100.0,
+      "usage_last_6_months": 148.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "62361007234": {
+      "material": "62361007234",
+      "description": "PS 24V/5A, 6EP13331LD00,SIEMENS",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "62344090128": {
+      "material": "62344090128",
+      "description": "REM.1F24-10D1544 2401976442VAC,TELECRANE",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "62300001217": {
+      "material": "62300001217",
+      "description": "MOTOR CASING COMP4220381990At Cop",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "62273631319": {
+      "material": "62273631319",
+      "description": "DIGITAL CLAMP METER 2727 MECO",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "62271800328": {
+      "material": "62271800328",
+      "description": "Temp.controler-E5CC-RX2ASM-800 Omron",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 6.0,
+      "usage_last_3_months": 6.0,
+      "usage_last_6_months": 6.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "62271506240": {
+      "material": "62271506240",
+      "description": "VOLTAGE TESTER-KM-69-MECO",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 9.0,
+      "usage_last_3_months": 8.0,
+      "usage_last_6_months": 9.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "62240810251": {
+      "material": "62240810251",
+      "description": "SOLDERING IRON 25W 230V IS959",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 7.0,
+      "usage_last_3_months": 7.0,
+      "usage_last_6_months": 7.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "62191515639": {
+      "material": "62191515639",
+      "description": "OLFLEX FLAT CABLE 8G1.5?042004 LAPP FR",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "62191514831": {
+      "material": "62191514831",
+      "description": "Cable 12G0.75sqmm 1119112 OLFLEX110 LAPP",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "62120100187": {
+      "material": "62120100187",
+      "description": "HALOGEN LAMP CAP 12V-20W-G4-PHILIPS",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 4.0,
+      "usage_last_3_months": 4.0,
+      "usage_last_6_months": 4.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "62060000367": {
+      "material": "62060000367",
+      "description": "BATTERY 18V-4.0AH DCB182 LI-ION DEWALT",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 52.0,
+      "usage_last_3_months": 35.0,
+      "usage_last_6_months": 52.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "611098908600": {
+      "material": "611098908600",
+      "description": "AIR NOZZLE DRG.6110 9890 86 00",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 387.0,
+      "usage_last_3_months": 131.0,
+      "usage_last_6_months": 387.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "601506030115": {
+      "material": "601506030115",
+      "description": "PU PUTTY APPLICATOR",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 2100.0,
+      "usage_last_3_months": 1300.0,
+      "usage_last_6_months": 2100.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "59352940001": {
+      "material": "59352940001",
+      "description": "PVC Insulated Flex MS Wire Rope2mm+0.5mm",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 1200.0,
+      "usage_last_3_months": 1200.0,
+      "usage_last_6_months": 1200.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "56506003216": {
+      "material": "56506003216",
+      "description": "PLUNGER GUN FOR RTV SI/SEALANT666ANABOND",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 10.0,
+      "usage_last_3_months": 10.0,
+      "usage_last_6_months": 10.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "55700010570": {
+      "material": "55700010570",
+      "description": "Cap Tip-18 Dia  096_096_29 arm weld 7916",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 250.0,
+      "usage_last_3_months": 200.0,
+      "usage_last_6_months": 250.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "53200096483": {
+      "material": "53200096483",
+      "description": "TRANSPARENT BRAIDED HOSE 1\" ID",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 200.0,
+      "usage_last_3_months": 100.0,
+      "usage_last_6_months": 200.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "53010510127": {
+      "material": "53010510127",
+      "description": "AIR(WATER)HOSE 1/ 2 IN ID BRADED -DUNLOP",
+      "material_group": "ME00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 295.0,
+      "usage_last_3_months": 200.0,
+      "usage_last_6_months": 295.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "53010060661": {
+      "material": "53010060661",
+      "description": "PNEUMATIC RUBBER HOSE 1/2 inch DUNLOP",
+      "material_group": "ME00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 53.5,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 53.5,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "39010244017": {
+      "material": "39010244017",
+      "description": "Hex Deep Socket Sqdr 1/2 X16mm A/F,CIC",
+      "material_group": "ME20000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 191.0,
+      "usage_last_3_months": 81.0,
+      "usage_last_6_months": 191.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "37800905088": {
+      "material": "37800905088",
+      "description": "DIAL GAUGE 0.005 LIFT 5-2124 S-10 MITUTO",
+      "material_group": "ME20000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 15.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 15.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "36623305087": {
+      "material": "36623305087",
+      "description": "Stikit 5 inch disc 3M P180 216U 3M MAKE",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 73.0,
+      "usage_last_3_months": 26.0,
+      "usage_last_6_months": 73.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "36623305079": {
+      "material": "36623305079",
+      "description": "Stikit 5 inch disc 3M P120 216U  3M MAKE",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 288.0,
+      "usage_last_3_months": 156.0,
+      "usage_last_6_months": 288.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "36623305028": {
+      "material": "36623305028",
+      "description": "ABR.ROLL 5IN STICK-IT W/O HOLES P220-3M",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 278.0,
+      "usage_last_3_months": 122.0,
+      "usage_last_6_months": 278.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "36623059329": {
+      "material": "36623059329",
+      "description": "ABRASIVE ROLL 5\" STICK-IT 216U P320-3M",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 312.0,
+      "usage_last_3_months": 152.0,
+      "usage_last_6_months": 312.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "36602550502": {
+      "material": "36602550502",
+      "description": "PERIPHERALF/DISC 180/50X22.23ZIRKON-60RR",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 95.0,
+      "usage_last_3_months": 50.0,
+      "usage_last_6_months": 95.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "36601040004": {
+      "material": "36601040004",
+      "description": "WATER PROOF PAPER9X5.1/2IN GR2000-401Q3M",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 904.0,
+      "usage_last_3_months": 400.0,
+      "usage_last_6_months": 904.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "36380118003": {
+      "material": "36380118003",
+      "description": "DEPR CENTRE GR WHL 180X7X22.23-A24TB",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 100.0,
+      "usage_last_3_months": 100.0,
+      "usage_last_6_months": 100.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "36380112501": {
+      "material": "36380112501",
+      "description": "DEPR.CENTRE GR.WHEEL 125X5X22.23 A24 T.B",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 1110.0,
+      "usage_last_3_months": 690.0,
+      "usage_last_6_months": 1110.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "36040513358A": {
+      "material": "36040513358A",
+      "description": "CUTTING OFF WHEEL125X22.23X1MM",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 610.0,
+      "usage_last_3_months": 510.0,
+      "usage_last_6_months": 610.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35881011041": {
+      "material": "35881011041",
+      "description": "MOBILE TOOL CABINET 7 DRAWERS ARVIND",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35881010168": {
+      "material": "35881010168",
+      "description": "PRE SWAGING TOOL 1/4\",MS-ST-400 SWAGELOK",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 8.0,
+      "usage_last_3_months": 6.0,
+      "usage_last_6_months": 8.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35841005073": {
+      "material": "35841005073",
+      "description": "PLASTIC NIPPER 152 MM 84-135 STANLEY",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 320.0,
+      "usage_last_3_months": 164.0,
+      "usage_last_6_months": 320.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35808590075": {
+      "material": "35808590075",
+      "description": "Q.REL.CHUCK ADOPT-1/2FX1/4F HEX-69112A08",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 69.0,
+      "usage_last_3_months": 39.0,
+      "usage_last_6_months": 69.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35808530510": {
+      "material": "35808530510",
+      "description": "SpringLoadedFinderBit M5X100 IS:844",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 45.0,
+      "usage_last_3_months": 30.0,
+      "usage_last_6_months": 45.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35802509608": {
+      "material": "35802509608",
+      "description": "PNUE RIVET BUSTER RB-7572 KATASHI",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 6.0,
+      "usage_last_3_months": 2.0,
+      "usage_last_6_months": 6.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35801201472": {
+      "material": "35801201472",
+      "description": "WASHER-KF124429-828CP",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35801197068": {
+      "material": "35801197068",
+      "description": "VANE PACK 2145-42-7 F/2145QIMAX-IR",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 12.0,
+      "usage_last_3_months": 4.0,
+      "usage_last_6_months": 12.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35801061395": {
+      "material": "35801061395",
+      "description": "SHANK ANVIL CA045907 RP9540B CP",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 10.0,
+      "usage_last_3_months": 7.0,
+      "usage_last_6_months": 10.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35801031064": {
+      "material": "35801031064",
+      "description": "HAMMER CASE 332 C-2 PTI 332 C",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 5.0,
+      "usage_last_3_months": 2.0,
+      "usage_last_6_months": 5.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35801031052": {
+      "material": "35801031052",
+      "description": "HAMMER 332 C-09 PTI 332 C",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 30.0,
+      "usage_last_3_months": 12.0,
+      "usage_last_6_months": 30.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35801031050": {
+      "material": "35801031050",
+      "description": "BOLT M4X12 318-18PTI 318",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 12.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 12.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35801031047": {
+      "material": "35801031047",
+      "description": "ROTOR BLADE 318-12PTI 318",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 54.0,
+      "usage_last_3_months": 30.0,
+      "usage_last_6_months": 54.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35801031046": {
+      "material": "35801031046",
+      "description": "CYLINDER 318-10PTI 318",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 8.0,
+      "usage_last_3_months": 4.0,
+      "usage_last_6_months": 8.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35801004529": {
+      "material": "35801004529",
+      "description": "AnvlKit,\"Rodcraft2277\"8950240460,CP",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 1.0,
+      "usage_last_3_months": 1.0,
+      "usage_last_6_months": 1.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35800306386": {
+      "material": "35800306386",
+      "description": "Housing Assy IR 2145QiMAX-A40 47103866",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 9.0,
+      "usage_last_3_months": 5.0,
+      "usage_last_6_months": 9.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35800171065": {
+      "material": "35800171065",
+      "description": "2\"/50mmSANDPAPER-DI-03S-2-P-MIRACLE",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 17950.0,
+      "usage_last_3_months": 10100.0,
+      "usage_last_6_months": 17950.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35800099003": {
+      "material": "35800099003",
+      "description": "SPECIAL BIT M-01-MIRACLE",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 230.0,
+      "usage_last_3_months": 115.0,
+      "usage_last_6_months": 230.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35751200089": {
+      "material": "35751200089",
+      "description": "30TONHEAVYDUTYHydraulicJACKBUSODTSHOPLKN",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 2.0,
+      "usage_last_3_months": 2.0,
+      "usage_last_6_months": 2.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35608000188": {
+      "material": "35608000188",
+      "description": "SWITCH SA N319341 DCF880M2-QW DEWALT",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 51.0,
+      "usage_last_3_months": 21.0,
+      "usage_last_6_months": 51.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35608000185": {
+      "material": "35608000185",
+      "description": "ARMATURE SA N149721 DCF880M2-QW DEWALT",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 30.0,
+      "usage_last_3_months": 12.0,
+      "usage_last_6_months": 30.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35602519075": {
+      "material": "35602519075",
+      "description": "BATTERY NIB 614-25 NITYO",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 30.0,
+      "usage_last_3_months": 20.0,
+      "usage_last_6_months": 30.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35602519072": {
+      "material": "35602519072",
+      "description": "CORDLESS IMP.WRENCH DCF880 14.4V DEWALT",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 10.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 10.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35602100365": {
+      "material": "35602100365",
+      "description": "BRUSH HOLDER SA N187232 DCF830M2 DEWALT",
+      "material_group": "Fast Moving",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": 1.0,
+      "avg_consumption": 93.0,
+      "usage_last_3_months": 65.0,
+      "usage_last_6_months": 93.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35601716159": {
+      "material": "35601716159",
+      "description": "CLUTCH HOUSING KIT 8940176736 CP7741",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 5.0,
+      "usage_last_3_months": 5.0,
+      "usage_last_6_months": 5.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35601716155": {
+      "material": "35601716155",
+      "description": "ANVIL KIT 8940174816 CP7741",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 5.0,
+      "usage_last_3_months": 5.0,
+      "usage_last_6_months": 5.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35121511507": {
+      "material": "35121511507",
+      "description": "DIAGONAL CUT.NIPPER 150 WITH INS.IS4378",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 450.0,
+      "usage_last_3_months": 263.0,
+      "usage_last_6_months": 450.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35071499403": {
+      "material": "35071499403",
+      "description": "CIR.PLIER INT.85-165mmBENT 1442-13TAPARI",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 15.0,
+      "usage_last_3_months": 5.0,
+      "usage_last_6_months": 15.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35071400407": {
+      "material": "35071400407",
+      "description": "CIRCLIP PLIER INTERNAL ST.-9\",C40 IS7989",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 21.0,
+      "usage_last_3_months": 16.0,
+      "usage_last_6_months": 21.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35070902409": {
+      "material": "35070902409",
+      "description": "WATER PUMP PLIER EVEREST 55- 250 MM",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 105.0,
+      "usage_last_3_months": 44.0,
+      "usage_last_6_months": 105.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35070512007": {
+      "material": "35070512007",
+      "description": "COMB PLIER INSULATED 200 IS3650",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 73.0,
+      "usage_last_3_months": 38.0,
+      "usage_last_6_months": 73.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35070000812": {
+      "material": "35070000812",
+      "description": "HOSE CLAMP PLIER D12.7MM 9AA16 KINGTONY",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 2.0,
+      "usage_last_3_months": 2.0,
+      "usage_last_6_months": 2.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35067550011": {
+      "material": "35067550011",
+      "description": "SPARE MALLET 40DIA FOR NYLON HAMMER",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 277.0,
+      "usage_last_3_months": 130.0,
+      "usage_last_6_months": 277.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35066102007": {
+      "material": "35066102007",
+      "description": "ENGINEERS BALL PEEN HAMMER 200 IS 841",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 67.0,
+      "usage_last_3_months": 42.0,
+      "usage_last_6_months": 67.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35034022204": {
+      "material": "35034022204",
+      "description": "L/D ENGG SCREW DRIVER 0.6X4X150 - 823",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 67.0,
+      "usage_last_3_months": 34.0,
+      "usage_last_6_months": 67.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35033923056": {
+      "material": "35033923056",
+      "description": "ENGINEERS SCR.DRIVER 1.6X10X300 IS844P2",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 89.0,
+      "usage_last_3_months": 67.0,
+      "usage_last_6_months": 89.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35024099651": {
+      "material": "35024099651",
+      "description": "OPEN ENDED INSERT19 MM 9X12 NOVATORK",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 12.0,
+      "usage_last_3_months": 6.0,
+      "usage_last_6_months": 12.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35024099642": {
+      "material": "35024099642",
+      "description": "OPEN ENDED INSERT 18 MM 9X12 NOVATORK",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35024099600": {
+      "material": "35024099600",
+      "description": "OPEN ENDED INSERT 14 MM 9X12 NOVATORK",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 2.0,
+      "usage_last_3_months": 2.0,
+      "usage_last_6_months": 2.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35020002890": {
+      "material": "35020002890",
+      "description": "TORQUE WR.100~600 N.M# KT-77476-ZA 14X18",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 1.0,
+      "usage_last_3_months": 1.0,
+      "usage_last_6_months": 1.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35020002881": {
+      "material": "35020002881",
+      "description": "BASIC TORQUE WR. 2-25NM KT-77372-ZB KODA",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35020002857": {
+      "material": "35020002857",
+      "description": "TORQUE WRENCH PH950T1 5-50 Nm NOVATORK",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35020002059": {
+      "material": "35020002059",
+      "description": "REV RATCHET INSERT 3/4IN14X18DH44420NOVA",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 23.0,
+      "usage_last_3_months": 8.0,
+      "usage_last_6_months": 23.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35013099209": {
+      "material": "35013099209",
+      "description": "SQDR ADAPTOR (F)1/2\"X(M)3/8\" IS7214",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 169.0,
+      "usage_last_3_months": 91.0,
+      "usage_last_6_months": 169.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35013099195": {
+      "material": "35013099195",
+      "description": "SQDR ADAPTOR (F)1/2\"X(M)3/4\" IS7214",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 86.0,
+      "usage_last_3_months": 49.0,
+      "usage_last_6_months": 86.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35013013193": {
+      "material": "35013013193",
+      "description": "HEX SOC DEEP19A/FX1/2SQDR HGISD219 HIPRO",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 183.0,
+      "usage_last_3_months": 112.0,
+      "usage_last_6_months": 183.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35013012197": {
+      "material": "35013012197",
+      "description": "HEX.SOCKET WRENCH 19X12.5 SQ IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 49.0,
+      "usage_last_3_months": 32.0,
+      "usage_last_6_months": 49.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35013012146": {
+      "material": "35013012146",
+      "description": "HEX SOCKET 1/2\" SQX14A/F IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 34.0,
+      "usage_last_3_months": 23.0,
+      "usage_last_6_months": 34.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35013012120": {
+      "material": "35013012120",
+      "description": "HEX.POWER SOCKET 12X12.5  SQ IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 173.0,
+      "usage_last_3_months": 93.0,
+      "usage_last_6_months": 173.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35013011328": {
+      "material": "35013011328",
+      "description": "HEX SOC DEEP 12A/Fx3/8SQ\" HGISD112 HIPRO",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 45.0,
+      "usage_last_3_months": 20.0,
+      "usage_last_6_months": 45.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35012875299": {
+      "material": "35012875299",
+      "description": "DEEP SOCKET 1/2\"SQDR.-SK-A1424ML-HONITON",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 119.0,
+      "usage_last_3_months": 77.0,
+      "usage_last_6_months": 119.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35012870203": {
+      "material": "35012870203",
+      "description": "EXTN BAR EX-E4125-12.7SQX125LONG-HONITON",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 174.0,
+      "usage_last_3_months": 90.0,
+      "usage_last_6_months": 174.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35012870149": {
+      "material": "35012870149",
+      "description": "EXTN BAR EX-D4250-12.7SQX250LONG-HONITON",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 201.0,
+      "usage_last_3_months": 109.0,
+      "usage_last_6_months": 201.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35012870068": {
+      "material": "35012870068",
+      "description": "HEX SOCKET SK-D1418M-18AFX12.7SQ-HONITON",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 107.0,
+      "usage_last_3_months": 47.0,
+      "usage_last_6_months": 107.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35012852825": {
+      "material": "35012852825",
+      "description": "HexSocketDeep3/4\"sqdrX30A/F IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 27.0,
+      "usage_last_3_months": 14.0,
+      "usage_last_6_months": 27.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35012851951": {
+      "material": "35012851951",
+      "description": "Hex.ImpDeepSockt22x1/2x120mmLIS7993-1988",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 17.0,
+      "usage_last_3_months": 9.0,
+      "usage_last_6_months": 17.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35012851225": {
+      "material": "35012851225",
+      "description": "SINGLE HEX IMP DEEP SOCKET HGISD213HIPR",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 78.0,
+      "usage_last_3_months": 47.0,
+      "usage_last_6_months": 78.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35012851210": {
+      "material": "35012851210",
+      "description": "Hex.ImpactDeepSocket36A/Fx1/2SQDR-IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35012851209": {
+      "material": "35012851209",
+      "description": "Hex.ImpactDeepSocket24A/Fx1/2SQDR-IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 75.0,
+      "usage_last_3_months": 36.0,
+      "usage_last_6_months": 75.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35012851187": {
+      "material": "35012851187",
+      "description": "Hex.ImpactDeepSocket21/Fx1/2SQDR-IS7339",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 109.0,
+      "usage_last_3_months": 69.0,
+      "usage_last_6_months": 109.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35012851179": {
+      "material": "35012851179",
+      "description": "Hex.ImpDeepSocket18x1/2x90mmLIS7993-1988",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 49.0,
+      "usage_last_3_months": 19.0,
+      "usage_last_6_months": 49.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35012851161": {
+      "material": "35012851161",
+      "description": "Hex.ImpactDeepSocket17A/Fx1/2SQDR-IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 332.0,
+      "usage_last_3_months": 166.0,
+      "usage_last_6_months": 332.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35012851152": {
+      "material": "35012851152",
+      "description": "HEX  DEEP SOCKET 16A/FX12.5SQ X90L",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 74.0,
+      "usage_last_3_months": 46.0,
+      "usage_last_6_months": 74.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35012851098": {
+      "material": "35012851098",
+      "description": "ImpHexExtn.Socket7A/Fx1/2sqdrx150LIS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 6.0,
+      "usage_last_3_months": 6.0,
+      "usage_last_6_months": 6.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35012851080": {
+      "material": "35012851080",
+      "description": "Hex.ImpactDeepSocket10A/Fx1/2SQDR-IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 141.0,
+      "usage_last_3_months": 61.0,
+      "usage_last_6_months": 141.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35012851055": {
+      "material": "35012851055",
+      "description": "ImpHexExtnSocket8A/Fx1/2sqdrx120L IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 44.0,
+      "usage_last_3_months": 11.0,
+      "usage_last_6_months": 44.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35012831020": {
+      "material": "35012831020",
+      "description": "NUT DRIVER 1/4\"HEX-10A/Fx100L HDM010L-ME",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 43.0,
+      "usage_last_3_months": 18.0,
+      "usage_last_6_months": 43.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35012799118": {
+      "material": "35012799118",
+      "description": "SwlExtnSocket17A/Fx1/2SQDRx200mmL IS7998",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 253.0,
+      "usage_last_3_months": 123.0,
+      "usage_last_6_months": 253.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35012799096": {
+      "material": "35012799096",
+      "description": "SWIVEL Ext ROD H/SOCKET-S-16A/F HIPRO",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 61.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 61.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35012799061": {
+      "material": "35012799061",
+      "description": "SwlExtnSocket10A/Fx1/2SQDRx100mmL IS7998",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 148.0,
+      "usage_last_3_months": 68.0,
+      "usage_last_6_months": 148.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35012712187": {
+      "material": "35012712187",
+      "description": "SwlExtnSocket16A/Fx1/2SQDRx200mmL IS7998",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 71.0,
+      "usage_last_3_months": 31.0,
+      "usage_last_6_months": 71.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35012712179": {
+      "material": "35012712179",
+      "description": "SwlExtnSocket13A/Fx1/2SQDRx200mmL IS7998",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 35.0,
+      "usage_last_3_months": 20.0,
+      "usage_last_6_months": 35.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35012711920": {
+      "material": "35012711920",
+      "description": "SWIVEL EXTN H/SOCKET 1/2\"SqDrx19AFx200 L",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 152.0,
+      "usage_last_3_months": 106.0,
+      "usage_last_6_months": 152.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35012711423": {
+      "material": "35012711423",
+      "description": "SWIVEL EXTN I/SOCKET MSESM 214X MEKASTER",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 254.0,
+      "usage_last_3_months": 143.0,
+      "usage_last_6_months": 254.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35012099019": {
+      "material": "35012099019",
+      "description": "SPANNER DEGP D 20X22 IS2028 CR.PLATED",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 21.0,
+      "usage_last_3_months": 5.0,
+      "usage_last_6_months": 21.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35012030329": {
+      "material": "35012030329",
+      "description": "SPANNER DEGP D 30X32 IS2028 CR.PLATED",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 46.0,
+      "usage_last_3_months": 36.0,
+      "usage_last_6_months": 46.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35012024272": {
+      "material": "35012024272",
+      "description": "SPANNER DEGP 24X27 IS2028",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 101.0,
+      "usage_last_3_months": 51.0,
+      "usage_last_6_months": 101.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35012008099": {
+      "material": "35012008099",
+      "description": "O/SPANNER DEGP D 8X9? IS2028 CR.PLATED",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 37.0,
+      "usage_last_3_months": 13.0,
+      "usage_last_6_months": 37.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35011299545": {
+      "material": "35011299545",
+      "description": "ADAPTORSQDR3/8\"FX1/2\"ML-102 IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 91.0,
+      "usage_last_3_months": 48.0,
+      "usage_last_6_months": 91.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35011299197": {
+      "material": "35011299197",
+      "description": "HexDeepSocket8A/FTaperx3/8\"sqdr IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 81.0,
+      "usage_last_3_months": 37.0,
+      "usage_last_6_months": 81.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35011290491": {
+      "material": "35011290491",
+      "description": "HexSocketDeep3/4\"sqdrX24A/F IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 38.0,
+      "usage_last_3_months": 27.0,
+      "usage_last_6_months": 38.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35011290386": {
+      "material": "35011290386",
+      "description": "HEX DEEP SOCKET 30X1/2\"SQ HGISD230-HIPRO",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 118.0,
+      "usage_last_3_months": 60.0,
+      "usage_last_6_months": 118.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35011280151": {
+      "material": "35011280151",
+      "description": "HexExtnSocket8A/Fx3/8sqdrx150LIS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 33.0,
+      "usage_last_3_months": 29.0,
+      "usage_last_6_months": 33.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35011280143": {
+      "material": "35011280143",
+      "description": "HexExtnSocket7A/Fx3/8sqdrx150L IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 7.0,
+      "usage_last_3_months": 4.0,
+      "usage_last_6_months": 7.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35011219061": {
+      "material": "35011219061",
+      "description": "UNIVERSAL JOINT 12.5SQDR IS 7214-1974.",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 9.0,
+      "usage_last_3_months": 3.0,
+      "usage_last_6_months": 9.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35011210412": {
+      "material": "35011210412",
+      "description": "BIHEX SOCKET SPANNER 20X41 IS7381",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 5.0,
+      "usage_last_3_months": 1.0,
+      "usage_last_6_months": 5.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35011200212": {
+      "material": "35011200212",
+      "description": "BIHEX SOCKET 1/2INX21 IS7381",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 237.0,
+      "usage_last_3_months": 109.0,
+      "usage_last_6_months": 237.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35011200131": {
+      "material": "35011200131",
+      "description": "BIHEX SOCKET SPANNER 12.5SQX13 IS7381",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 66.0,
+      "usage_last_3_months": 36.0,
+      "usage_last_6_months": 66.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35011200107": {
+      "material": "35011200107",
+      "description": "BIHEX SOCKET SPANNER 12.5SQX10-IS7381",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 307.0,
+      "usage_last_3_months": 183.0,
+      "usage_last_6_months": 307.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35011199192": {
+      "material": "35011199192",
+      "description": "OPEN + RATCHET RING SPANNER 19MM",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 12.0,
+      "usage_last_3_months": 1.0,
+      "usage_last_6_months": 12.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35011199168": {
+      "material": "35011199168",
+      "description": "OPEN + RATCHET RING SPANNER 10MM",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 115.0,
+      "usage_last_3_months": 66.0,
+      "usage_last_6_months": 115.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35011102075": {
+      "material": "35011102075",
+      "description": "BixRatchetRingD/Espanner 13A/F  IS7993",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 72.0,
+      "usage_last_3_months": 37.0,
+      "usage_last_6_months": 72.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35011101249": {
+      "material": "35011101249",
+      "description": "RATCHETING SPANNER 24MM-2179K-KENNEDY",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 56.0,
+      "usage_last_3_months": 31.0,
+      "usage_last_6_months": 56.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35010510111": {
+      "material": "35010510111",
+      "description": "RING SPANNER 10 X 11 IS2029 CR.PLATED",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 89.0,
+      "usage_last_3_months": 40.0,
+      "usage_last_6_months": 89.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35010004207": {
+      "material": "35010004207",
+      "description": "HEX BIT SOC 3/8\"\u00d75MM BS-B3HX04 HONI LT1",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 114.0,
+      "usage_last_3_months": 66.0,
+      "usage_last_6_months": 114.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35010002859": {
+      "material": "35010002859",
+      "description": "HEX BIT SOC 3/8\"x 4MM BS-B3HX04 HONITO",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 61.0,
+      "usage_last_3_months": 30.0,
+      "usage_last_6_months": 61.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35000071879": {
+      "material": "35000071879",
+      "description": "CHECKER-203-562-1 FOR URW-10N 12N URYU",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 1.0,
+      "usage_last_3_months": 1.0,
+      "usage_last_6_months": 1.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35000029501": {
+      "material": "35000029501",
+      "description": "CARBON BRUSH 1607000 CZ1 GSR 180LI BOSCH",
+      "material_group": "Medium Moving",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": 1.0,
+      "avg_consumption": 2.0,
+      "usage_last_3_months": 1.0,
+      "usage_last_6_months": 2.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35000009316": {
+      "material": "35000009316",
+      "description": "Phillips Bit 2 Ended1/4Hex-PH3X75 IS:844",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 247.0,
+      "usage_last_3_months": 126.0,
+      "usage_last_6_months": 247.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "35000009294": {
+      "material": "35000009294",
+      "description": "Phillips Bit 2 Ended1/4Hex-PH2X75 IS:844",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 441.0,
+      "usage_last_3_months": 247.0,
+      "usage_last_6_months": 441.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "35000007127": {
+      "material": "35000007127",
+      "description": "Bihex Ratchet Ring Spanner 14 mm.",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 47.0,
+      "usage_last_3_months": 26.0,
+      "usage_last_6_months": 47.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "35000003491": {
+      "material": "35000003491",
+      "description": "ANVIL ASSY PT.No.9901-0002-0034-S-TORK",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 9.0,
+      "usage_last_3_months": 8.0,
+      "usage_last_6_months": 9.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "33160331203": {
+      "material": "33160331203",
+      "description": "TAP BOTTOMING M12 IS6175P3 HS 3 FLUTES",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 250.0,
+      "usage_last_3_months": 175.0,
+      "usage_last_6_months": 250.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "33160331041": {
+      "material": "33160331041",
+      "description": "TAP BOTTOMING M10 IS6175P3 HS-3 FLUTES",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 284.0,
+      "usage_last_3_months": 173.0,
+      "usage_last_6_months": 284.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "33010330802": {
+      "material": "33010330802",
+      "description": "TAP FINISHER M8 IS6175P2 HS",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 1201.0,
+      "usage_last_3_months": 710.0,
+      "usage_last_6_months": 1201.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "33010330608": {
+      "material": "33010330608",
+      "description": "TAP FINISHER M6 IS6175P2 HS",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 2600.0,
+      "usage_last_3_months": 1416.0,
+      "usage_last_6_months": 2600.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "33010330501": {
+      "material": "33010330501",
+      "description": "TAP FINISHER M5 IS6175P2 HS",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 148.0,
+      "usage_last_3_months": 67.0,
+      "usage_last_6_months": 148.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "32000000835": {
+      "material": "32000000835",
+      "description": "REAR GASKET 9100835 TW 2265 TORK",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "32000000805": {
+      "material": "32000000805",
+      "description": "MOTOR HOUSING 9100805 TW 2265 TORK",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 0.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 0.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "32000000804": {
+      "material": "32000000804",
+      "description": "FRONT GASKET 9100804 TW 2265 TORK",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 3.0,
+      "usage_last_3_months": 2.0,
+      "usage_last_6_months": 3.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "32000000802": {
+      "material": "32000000802",
+      "description": "HAMMER CASING 9100802 TW 2265 TORK",
+      "material_group": "MF00000",
+      "plant": "3002",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 11.0,
+      "usage_last_3_months": 6.0,
+      "usage_last_6_months": 11.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "31653113008": {
+      "material": "31653113008",
+      "description": "TS M/C BRIDGE REAMER 13.0 IS5919-4FLUTE",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 168.0,
+      "usage_last_3_months": 35.0,
+      "usage_last_6_months": 168.0,
+      "eligible": true,
+      "zone": "green",
+      "zone_label": "Green Zone"
+    },
+    "31010510000": {
+      "material": "31010510000",
+      "description": "PS TWIST DRILL JOBBER  10.0T IS5101 HS",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 120.0,
+      "usage_last_3_months": 79.0,
+      "usage_last_6_months": 120.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    },
+    "31010503208": {
+      "material": "31010503208",
+      "description": "PS TWIST DRILL JOBBER 3.2T IS5101 HS",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 1292.0,
+      "usage_last_3_months": 811.0,
+      "usage_last_6_months": 1292.0,
+      "eligible": true,
+      "zone": "yellow",
+      "zone_label": "Yellow Zone"
+    },
+    "299330080123": {
+      "material": "299330080123",
+      "description": "LH BORING BAR DIA 16MM ENTRY DIA 18MM",
+      "material_group": "MF00000",
+      "plant": "3004",
+      "current_stock": "",
+      "critical_value": "",
+      "avg_consumption": 2.0,
+      "usage_last_3_months": 0.0,
+      "usage_last_6_months": 2.0,
+      "eligible": true,
+      "zone": "red",
+      "zone_label": "Red Zone"
+    }
+  },
+  "skipped_without_zone": 0,
+  "loaded_at": "2026-06-09 15:22:15"
+}

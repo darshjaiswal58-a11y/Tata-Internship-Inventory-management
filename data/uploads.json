@@ -1,0 +1,20 @@
+[
+  {
+    "id": "50e9180936",
+    "file_name": "Matched_Data_With_Valuated_Stock.xlsx",
+    "uploaded_at": "2026-05-11 21:28:37",
+    "imported_rows": 2537,
+    "failed_count": 1,
+    "no_criteria_count": 2536,
+    "report_file": "reorder_report_50e9180936.xlsx",
+    "analysis_file": "analysis_50e9180936.json"
+  },
+  {
+    "id": "13643654ee",
+    "file_name": "Matched_Data_With_Valuated_Stock.xlsx",
+    "uploaded_at": "2026-05-11 12:25:26",
+    "imported_rows": 2537,
+    "failed_count": 1,
+    "report_file": "reorder_report_13643654ee.xlsx"
+  }
+]

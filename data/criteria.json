@@ -1,0 +1,17 @@
+{
+  "18226010528": {
+    "material": "18226010528",
+    "description": "SOL.VALVE JMFH-5/2-D-3-C 151871 FESTO",
+    "minimum_stock": 5,
+    "reorder_quantity": 10,
+    "active": true
+  },
+  "ml_spare::62364000110": {
+    "material": "62364000110",
+    "description": "ELCB 63A 4P AC 100MA A9N26644 SCHNEIDER",
+    "category": "ml_spare",
+    "minimum_stock": 5.0,
+    "reorder_quantity": 20.0,
+    "active": true
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "ml_spare::IEF1ZZZ": {
+    "category": "ml_spare",
+    "material_group": "IEF1ZZZ",
+    "critical_stock": 0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-27 10:27:09"
+  },
+  "ml_spare::I4Y1504": {
+    "category": "ml_spare",
+    "material_group": "I4Y1504",
+    "critical_stock": 2.0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-14 11:30:57"
+  },
+  "ml_spare::I32Q000": {
+    "category": "ml_spare",
+    "material_group": "I32Q000",
+    "critical_stock": 1.0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-19 09:07:39"
+  },
+  "ml_spare::IE5JZZZ": {
+    "category": "ml_spare",
+    "material_group": "IE5JZZZ",
+    "critical_stock": 2.0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-14 11:32:14"
+  },
+  "ml_spare::I7LC504": {
+    "category": "ml_spare",
+    "material_group": "I7LC504",
+    "critical_stock": 5.0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-14 12:02:57"
+  },
+  "ml_spare::IE00000": {
+    "category": "ml_spare",
+    "material_group": "IE00000",
+    "critical_stock": 2.0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-14 11:32:26"
+  },
+  "ml_spare::IEDA000": {
+    "category": "ml_spare",
+    "material_group": "IEDA000",
+    "critical_stock": 0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-27 10:12:54"
+  },
+  "tools::Fast Moving": {
+    "category": "tools",
+    "material_group": "Fast Moving",
+    "critical_stock": 0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-18 15:10:31"
+  },
+  "tools::I7P6504": {
+    "category": "tools",
+    "material_group": "I7P6504",
+    "critical_stock": 2.0,
+    "reorder_quantity": 10.0,
+    "active": true,
+    "updated_at": "2026-05-18 15:10:46"
+  },
+  "tools::IEDA000": {
+    "category": "tools",
+    "material_group": "IEDA000",
+    "critical_stock": 0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-18 15:10:51"
+  },
+  "tools::I32Q000": {
+    "category": "tools",
+    "material_group": "I32Q000",
+    "critical_stock": 0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-18 15:10:55"
+  },
+  "ml_spare::T56Q200": {
+    "category": "ml_spare",
+    "material_group": "T56Q200",
+    "critical_stock": 50.0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-18 15:33:52"
+  },
+  "ml_spare::I7P6504": {
+    "category": "ml_spare",
+    "material_group": "I7P6504",
+    "critical_stock": 0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-18 16:09:54"
+  },
+  "ml_spare::ELECTRICAL SPARES": {
+    "category": "ml_spare",
+    "material_group": "ELECTRICAL SPARES",
+    "critical_stock": 0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-19 11:03:58"
+  },
+  "ml_spare::6D00000": {
+    "category": "ml_spare",
+    "material_group": "6D00000",
+    "critical_stock": 0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-27 10:26:58"
+  },
+  "ml_spare::8PFM000": {
+    "category": "ml_spare",
+    "material_group": "8PFM000",
+    "critical_stock": 0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-27 10:27:05"
+  },
+  "ml_spare::ID00000": {
+    "category": "ml_spare",
+    "material_group": "ID00000",
+    "critical_stock": 0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-27 10:27:12"
+  },
+  "ml_spare::02": {
+    "category": "ml_spare",
+    "material_group": "02",
+    "critical_stock": 1.0,
+    "reorder_quantity": 0,
+    "active": true,
+    "updated_at": "2026-05-27 11:53:46"
+  }
+}
