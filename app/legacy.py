@@ -910,26 +910,46 @@ def parse_number(value, default=0):
     if value is None or value == "":
         return default
     try:
-        return float(value)
+        return float(str(value).replace(",", "").strip())
     except (TypeError, ValueError):
         return default
 
 
+def normalize_header_key(value):
+    return " ".join(str(value or "").replace("_", " ").strip().lower().split())
+
+
 def find_column(headers, candidates):
-    normalized_headers = {str(header).strip().lower(): index for index, header in enumerate(headers)}
+    normalized_headers = {normalize_header_key(header): index for index, header in enumerate(headers)}
     for candidate in candidates:
-        index = normalized_headers.get(candidate.lower())
+        index = normalized_headers.get(normalize_header_key(candidate))
         if index is not None:
             return index
     return None
 
 
-def normalize_date(value):
-    if value is None:
-        return ""
+def parse_date_value(value):
+    if value is None or value == "":
+        return None
     if isinstance(value, datetime):
-        return value.strftime("%Y-%m-%d")
-    return str(value)
+        return value
+    text = str(value).strip()
+    for fmt in ("%Y-%m-%d", "%d-%m-%Y", "%d/%m/%Y", "%Y/%m/%d", "%d-%b-%Y", "%d %b %Y", "%d.%m.%Y"):
+        try:
+            return datetime.strptime(text, fmt)
+        except ValueError:
+            continue
+    try:
+        return datetime.fromisoformat(text)
+    except ValueError:
+        return None
+
+
+def normalize_date(value):
+    parsed = parse_date_value(value)
+    if not parsed:
+        return ""
+    return parsed.strftime("%Y-%m-%d")
 
 
 def normalize_category(value):
@@ -1419,11 +1439,28 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
         raise ValueError("Excel sheet is empty.")
 
     headers = [str(value).strip() if value is not None else "" for value in rows[0]]
-    missing = [column for column in REQUIRED_COLUMNS if column not in headers]
+    idx = {
+        "Purchase Order Date": find_column(headers, ["Purchase Order Date", "PO Date", "Document Date", "Purchase Doc Date"]),
+        "Entry Date": find_column(headers, ["Entry Date", "Posting Date", "GR Date", "Goods Receipt Date"]),
+        "Material": find_column(headers, ["Material", "Part Number", "Part No", "Material Code"]),
+        "Material Description": find_column(headers, ["Material Description", "Description", "Part Description", "Part Desc", "Short Text"]),
+        "Quantity": find_column(headers, ["Quantity", "Qty in unit of entry", "Qty in order unit", "Qty in OPUn", "Receipt Quantity"]),
+        "Days Between": find_column(headers, ["Days Between", "Days_Between", "Ageing Days", "Aging Days", "Lead Time Days"]),
+        "Valuated Stock": find_column(headers, ["Valuated Stock", "Current Stock", "Current_Stock", "Stock", "Stock Qty", "Unrestricted Stock"]),
+        "Movement Type": find_column(headers, ["Movement Type", "Movement type", "MvT", "Movement"]),
+    }
+    if idx["Valuated Stock"] is None:
+        idx["Valuated Stock"] = idx["Quantity"]
+    required_labels = ["Material", "Material Description", "Quantity", "Valuated Stock"]
+    missing = [label for label in required_labels if idx.get(label) is None]
+    if idx["Days Between"] is None and (idx["Purchase Order Date"] is None or idx["Entry Date"] is None):
+        missing.append("Days Between or both Entry/Posting Date and Purchase Order/Document Date")
     if missing:
-        raise ValueError("Missing required columns: " + ", ".join(missing))
-
-    idx = {name: headers.index(name) for name in REQUIRED_COLUMNS}
+        raise ValueError(
+            "Missing required columns: "
+            + ", ".join(missing)
+            + ". Accepted alternatives include SAP headers like Posting Date, Document Date, Qty in unit of entry, and Quantity."
+        )
     material_group_idx = find_column(headers, [
         "Material Group",
         "Material Category",
@@ -1457,32 +1494,22 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
     def _validate_date_field(value):
         if value is None or value == "":
             return True
-        if isinstance(value, datetime):
-            return True
-        s = str(value).strip()
-        # try isoformat first
-        try:
-            datetime.fromisoformat(s)
-            return True
-        except Exception:
-            pass
-        # try common formats
-        for fmt in ("%d-%m-%Y", "%d/%m/%Y", "%Y/%m/%d", "%d-%b-%Y", "%d %b %Y"):
-            try:
-                datetime.strptime(s, fmt)
-                return True
-            except Exception:
-                continue
-        return False
+        return parse_date_value(value) is not None
 
     for row_index, raw in enumerate(rows[1:], start=2):
         if not raw or all(value is None for value in raw):
             continue
 
-        # basic row bounds check
-        try:
-            material_cell = raw[idx["Material"]]
-        except Exception:
+        row_errors = []
+
+        def cell(label):
+            column_index = idx.get(label)
+            if column_index is None or column_index >= len(raw):
+                return None
+            return raw[column_index]
+
+        material_cell = cell("Material")
+        if material_cell is None:
             errors.append(f"Row {row_index}: missing 'Material' column value")
             continue
 
@@ -1490,7 +1517,7 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
         if not material:
             continue
 
-        description = str(raw[idx["Material Description"]] or "").strip()
+        description = str(cell("Material Description") or "").strip()
         uploaded_material_group = ""
         if material_group_idx is not None and material_group_idx < len(raw):
             uploaded_material_group = str(raw[material_group_idx] or "").strip()
@@ -1504,40 +1531,50 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
                 "description": description,
             })
         # Validate numeric fields
-        q_cell = raw[idx["Quantity"]] if idx["Quantity"] < len(raw) else None
-        vs_cell = raw[idx["Valuated Stock"]] if idx["Valuated Stock"] < len(raw) else None
-        db_cell = raw[idx["Days Between"]] if idx["Days Between"] < len(raw) else None
-        ed_cell = raw[idx["Entry Date"]] if idx["Entry Date"] < len(raw) else None
-        pod_cell = raw[idx["Purchase Order Date"]] if idx["Purchase Order Date"] < len(raw) else None
+        q_cell = cell("Quantity")
+        vs_cell = cell("Valuated Stock")
+        db_cell = cell("Days Between")
+        ed_cell = cell("Entry Date")
+        pod_cell = cell("Purchase Order Date")
+        movement_type_cell = cell("Movement Type")
 
         if not _is_number(q_cell):
-            errors.append(f"Row {row_index}: 'Quantity' must be numeric (got: {q_cell!r})")
+            row_errors.append(f"Row {row_index}: 'Quantity' must be numeric (got: {q_cell!r})")
         if not _is_number(vs_cell):
-            errors.append(f"Row {row_index}: 'Valuated Stock' must be numeric (got: {vs_cell!r})")
+            row_errors.append(f"Row {row_index}: 'Valuated Stock/Stock Quantity' must be numeric (got: {vs_cell!r})")
         # Days Between may be empty for some sheets, but if present must be numeric
         if db_cell is not None and db_cell != "" and not _is_number(db_cell):
-            errors.append(f"Row {row_index}: 'Days Between' must be numeric (got: {db_cell!r})")
+            row_errors.append(f"Row {row_index}: 'Days Between' must be numeric (got: {db_cell!r})")
 
         # Validate date fields (if present)
         if not _validate_date_field(ed_cell):
-            errors.append(f"Row {row_index}: 'Entry Date' not parseable (got: {ed_cell!r})")
+            row_errors.append(f"Row {row_index}: 'Entry/Posting Date' not parseable (got: {ed_cell!r})")
         if not _validate_date_field(pod_cell):
-            errors.append(f"Row {row_index}: 'Purchase Order Date' not parseable (got: {pod_cell!r})")
+            row_errors.append(f"Row {row_index}: 'Purchase Order/Document Date' not parseable (got: {pod_cell!r})")
 
         # If any validation errors collected so far, skip further processing for this row
-        if errors:
+        if row_errors:
+            errors.extend(row_errors)
             # continue scanning to collect multiple errors, but don't process business logic
             continue
 
         quantity = parse_number(q_cell)
         current_stock = parse_number(vs_cell)
-        days_between = parse_number(db_cell)
+        entry_date_value = parse_date_value(ed_cell)
+        purchase_order_date_value = parse_date_value(pod_cell)
+        if db_cell is None or db_cell == "":
+            days_between = (entry_date_value - purchase_order_date_value).days if entry_date_value and purchase_order_date_value else 0
+        else:
+            days_between = parse_number(db_cell)
         entry_date = normalize_date(ed_cell)
         purchase_order_date = normalize_date(pod_cell)
-        movement_type = "Received" if quantity > 0 else "Used" if quantity < 0 else "No movement"
-        if quantity > 0:
+        movement_code = str(movement_type_cell or "").strip()
+        is_used_movement = movement_code in {"201", "221", "261", "281", "543", "551", "601", "901"} or movement_code.startswith("9")
+        is_received_movement = movement_code in {"101", "105", "501", "561"}
+        movement_type = "Used" if is_used_movement or quantity < 0 else "Received" if is_received_movement or quantity > 0 else "No movement"
+        if movement_type == "Received":
             received_rows += 1
-        elif quantity < 0:
+        elif movement_type == "Used":
             used_rows += 1
             used_quantity_total += abs(quantity)
 
