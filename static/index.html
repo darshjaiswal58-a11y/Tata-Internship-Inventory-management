@@ -235,6 +235,7 @@
           <button type="submit">Process Excel</button>
         </form>
         <div id="uploadStatus" class="status"></div>
+        <div id="uploadActions" class="inline-actions"></div>
       </section>
 
       <section id="criteria" class="panel admin-only">
@@ -244,6 +245,16 @@
             <h2>Set Stock Criteria</h2>
           </div>
           <p id="criteriaHint" class="hint">The report includes materials where current stock is at or below the minimum stock.</p>
+        </div>
+        <div class="criteria-area-bar">
+          <label>
+            Criteria Area
+            <select id="criteriaAreaSelect">
+              <option value="ml_spare">Machinery Spare</option>
+              <option value="tools">Tools</option>
+            </select>
+          </label>
+          <p class="hint">Criteria shown and saved here apply only to the selected area.</p>
         </div>
         <div class="search-area">
           <label>
@@ -291,6 +302,7 @@
                 <th>Reorder Qty</th>
                 <th>Status</th>
                 <th>Keep</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody id="criteriaRows"></tbody>

@@ -100,6 +100,7 @@ function applyAuthState(user) {
   $("#criteriaForm").querySelectorAll("input, button").forEach((element) => {
     element.disabled = !canEditCriteria;
   });
+  $("#criteriaAreaSelect").disabled = !canEditCriteria;
   $("#criteriaHint").textContent = canEditCriteria
     ? "The report includes materials where current stock is at or below the minimum stock."
     : "Only the admin can set or edit stock criteria.";
@@ -134,6 +135,7 @@ async function selectCategory(category) {
   $("#categorySelect").value = currentCategory;
   $("#uploadCategory").value = currentCategory;
   $("#criteriaCategory").value = currentCategory;
+  $("#criteriaAreaSelect").value = currentCategory;
   $("#materialGroupSelect").value = "";
   $("#materialSearch").value = "";
   renderMaterialResults([]);
@@ -156,9 +158,10 @@ function renderCriteria(criteria) {
         <td>${fmt(row.reorder_quantity)}</td>
         <td>${row.active ? "Active" : "Inactive"}</td>
         <td>${row.keep_stock ? "Kept" : "-"}</td>
+        <td><button class="small-danger" type="button" data-criteria-delete="${escapeAttr(row.material)}">Delete</button></td>
       </tr>
     `).join("")
-    : `<tr><td class="empty" colspan="7">No criteria added yet.</td></tr>`;
+    : `<tr><td class="empty" colspan="8">No criteria added yet.</td></tr>`;
 }
 
 function renderUploads(uploads) {
@@ -171,10 +174,27 @@ function renderUploads(uploads) {
         <td>${fmt(row.imported_rows)}</td>
         <td>${fmt(row.failed_count)}</td>
         <td>${fmt(row.no_criteria_count)}</td>
-        <td><a class="download" href="/api/download?file=${encodeURIComponent(row.report_file)}">Download Excel</a></td>
+        <td>
+          <div class="download-stack">
+            <a class="download" href="/api/download?file=${encodeURIComponent(row.report_file)}">Failed Criteria</a>
+            <a class="download" href="/api/no-criteria-export?upload_id=${encodeURIComponent(row.id)}&category=${encodeURIComponent(row.category || currentCategory)}">No Criteria</a>
+          </div>
+        </td>
       </tr>
     `).join("")
     : `<tr><td class="empty" colspan="7">No uploads processed yet.</td></tr>`;
+}
+
+function renderUploadActions(upload) {
+  const container = $("#uploadActions");
+  if (!upload) {
+    container.innerHTML = "";
+    return;
+  }
+  container.innerHTML = `
+    <a class="download" href="/api/download?file=${encodeURIComponent(upload.report_file)}">Download failed criteria Excel</a>
+    <a class="download" href="/api/no-criteria-export?upload_id=${encodeURIComponent(upload.id)}&category=${encodeURIComponent(upload.category || currentCategory)}">Download no-criteria items</a>
+  `;
 }
 
 function overrideRows(overrides) {
@@ -591,6 +611,30 @@ $("#criteriaForm").addEventListener("submit", async (event) => {
   }
 });
 
+$("#criteriaAreaSelect").addEventListener("change", async (event) => {
+  await selectCategory(event.target.value);
+  location.hash = "criteria";
+});
+
+$("#criteriaRows").addEventListener("click", async (event) => {
+  const button = event.target.closest("button[data-criteria-delete]");
+  if (!button) return;
+  if (currentUser?.role !== "admin") {
+    alert("Only the admin can delete stock criteria.");
+    return;
+  }
+  try {
+    const material = button.dataset.criteriaDelete;
+    const result = await api(`/api/criteria?category=${encodeURIComponent(currentCategory)}&material=${encodeURIComponent(material)}`, {
+      method: "DELETE",
+    });
+    setSummary(result.summary);
+    await refresh();
+  } catch (error) {
+    alert(error.message);
+  }
+});
+
 $("#stockOverrideForm").addEventListener("submit", async (event) => {
   event.preventDefault();
   if (currentUser?.role !== "admin") {
@@ -764,6 +808,7 @@ $("#uploadForm").addEventListener("submit", async (event) => {
       ? ` Material groups updated from Excel (${result.upload.learned_material_groups} group(s)).`
       : " No material group column found; using saved master lookup.";
     status.textContent = `Imported ${result.upload.imported_rows} rows. Failed criteria: ${result.upload.failed_count}.${categoryMessage}`;
+    renderUploadActions(result.upload);
     setSummary(result.summary);
     renderAnalysis({
       upload: result.upload,
@@ -780,6 +825,7 @@ $("#uploadForm").addEventListener("submit", async (event) => {
 renderFailed([]);
 renderMaterialResults([]);
 renderGroupCriticalRows([]);
+renderUploadActions(null);
 applyAuthState(null);
 loadSession().catch((error) => {
   $("#uploadStatus").className = "status error";

@@ -1338,13 +1338,52 @@ def save_report(upload_id, failed_rows):
     return report_path
 
 
-def save_analysis(upload_id, failed_rows, no_criteria_count, analyzed_rows=None):
+def build_no_criteria_export(rows):
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "No Criteria Items"
+    headers = [
+        "Material",
+        "Material Group",
+        "Material Description",
+        "Current Stock",
+        "Net Consumption",
+        "Latest Movement",
+        "Movement Type",
+        "Entry Date",
+        "Purchase Order Date",
+        "Days Between",
+        "Reason",
+    ]
+    ws.append(headers)
+    for row in rows:
+        ws.append([
+            row.get("material", ""),
+            row.get("material_group", ""),
+            row.get("description", ""),
+            row.get("current_stock", ""),
+            row.get("net_consumption", ""),
+            row.get("latest_quantity", ""),
+            row.get("movement_type", ""),
+            row.get("entry_date", ""),
+            row.get("purchase_order_date", ""),
+            row.get("days_between", ""),
+            row.get("reason", "No matching criteria found"),
+        ])
+    for column_cells in ws.columns:
+        max_len = max(len(str(cell.value or "")) for cell in column_cells)
+        ws.column_dimensions[column_cells[0].column_letter].width = min(max(max_len + 2, 12), 42)
+    return wb
+
+
+def save_analysis(upload_id, failed_rows, no_criteria_count, analyzed_rows=None, no_criteria_rows=None):
     analysis_path = ANALYSIS_DIR / f"analysis_{upload_id}.json"
     payload = {
         "upload_id": upload_id,
         "analyzed_rows": analyzed_rows or [],
         "failed_rows": failed_rows,
         "no_criteria_count": no_criteria_count,
+        "no_criteria_rows": no_criteria_rows or [],
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     }
     write_json(analysis_path, payload)
@@ -1475,6 +1514,7 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
     no_criteria_count = 0
     failed_by_material = {}
     analyzed_by_material = {}
+    no_criteria_by_material = {}
     learned_material_groups = []
 
     errors = []
@@ -1609,6 +1649,19 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
         material_criteria = get_material_criteria(criteria, category, material)
         if not material_criteria or not material_criteria.get("active", True):
             no_criteria_count += 1
+            no_criteria_by_material[material] = {
+                "material": material,
+                "material_group": material_group,
+                "description": description,
+                "current_stock": current_stock,
+                "net_consumption": net_consumption,
+                "latest_quantity": quantity,
+                "movement_type": movement_type,
+                "entry_date": entry_date,
+                "purchase_order_date": purchase_order_date,
+                "days_between": days_between,
+                "reason": "No active matching criteria found for this material",
+            }
             continue
 
         minimum_stock = parse_number(material_criteria.get("minimum_stock"))
@@ -1641,8 +1694,9 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
 
     failed_rows = sorted(failed_by_material.values(), key=lambda item: (item["current_stock"], item["material"]))
     analyzed_rows = sorted(analyzed_by_material.values(), key=lambda item: item["material"])
+    no_criteria_rows = sorted(no_criteria_by_material.values(), key=lambda item: item["material"])
     report_path = save_report(upload_id, failed_rows)
-    analysis_path = save_analysis(upload_id, failed_rows, no_criteria_count, analyzed_rows)
+    analysis_path = save_analysis(upload_id, failed_rows, no_criteria_count, analyzed_rows, no_criteria_rows)
     upload_record = {
         "id": upload_id,
         "file_name": original_name,
@@ -1985,8 +2039,49 @@ class AppHandler(BaseHTTPRequestHandler):
                 "upload": upload,
                 "failed_rows": failed_rows,
                 "no_criteria_count": analysis.get("no_criteria_count", 0),
+                "no_criteria_rows": analysis.get("no_criteria_rows", []),
                 "generated_at": analysis.get("generated_at"),
             })
+        if path == "/api/no-criteria-export":
+            if not require_user(self):
+                return
+            query = parse_qs(parsed.query)
+            upload_id = query.get("upload_id", [""])[0]
+            category = query.get("category", [""])[0]
+            material_group = query.get("material_group", [""])[0]
+            uploads = read_json(UPLOADS_FILE)
+            if category:
+                category = normalize_category(category)
+                uploads = [
+                    item for item in uploads
+                    if normalize_category(item.get("category", DEFAULT_CATEGORY)) == category
+                ]
+            upload = next((item for item in uploads if item.get("id") == upload_id), uploads[0] if uploads else None)
+            if not upload:
+                return json_response(self, 404, {"error": "Upload not found."})
+            analysis = analysis_for_upload(upload)
+            rows = analysis.get("no_criteria_rows", [])
+            if material_group:
+                rows = [
+                    row for row in rows
+                    if (row.get("material_group") or material_group_for(row.get("material"))) == material_group
+                ]
+            rows = [
+                {**row, "material_group": row.get("material_group") or material_group_for(row.get("material"))}
+                for row in rows
+            ]
+            wb = build_no_criteria_export(rows)
+            output = io.BytesIO()
+            wb.save(output)
+            body = output.getvalue()
+            safe_category = normalize_category(upload.get("category", DEFAULT_CATEGORY))
+            self.send_response(200)
+            self.send_header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            self.send_header("Content-Disposition", f'attachment; filename="{safe_category}_no_criteria_items_{upload.get("id", "latest")}.xlsx"')
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
         if path == "/api/download":
             if not require_user(self):
                 return
@@ -2167,6 +2262,31 @@ class AppHandler(BaseHTTPRequestHandler):
 
     def do_DELETE(self):
         parsed = urlparse(self.path)
+        if parsed.path == "/api/criteria":
+            if not require_role(self, "admin"):
+                return
+            query = parse_qs(parsed.query)
+            category = normalize_category(query.get("category", [DEFAULT_CATEGORY])[0])
+            material = str(query.get("material", [""])[0]).strip()
+            if not material:
+                return json_response(self, 400, {"error": "Material code is required."})
+            criteria = read_json(CRITERIA_FILE)
+            deleted = False
+            key = criteria_key(category, material)
+            if key in criteria:
+                del criteria[key]
+                deleted = True
+            for existing_key, existing_value in list(criteria.items()):
+                if criteria_matches(existing_value, category, material):
+                    del criteria[existing_key]
+                    deleted = True
+            if not deleted:
+                return json_response(self, 404, {"error": "Criteria not found."})
+            write_json(CRITERIA_FILE, criteria)
+            global STOCK_ZONE_ANALYSIS_CACHE
+            STOCK_ZONE_ANALYSIS_CACHE = None
+            sync_stock_zone_analysis()
+            return json_response(self, 200, {"summary": build_summary()})
         if parsed.path == "/api/stock-overrides":
             if not require_role(self, "admin"):
                 return

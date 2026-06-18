@@ -270,6 +270,21 @@ body:not(.is-admin) nav a[href="#criteria"] {
   grid-template-columns: 1fr auto;
 }
 
+.inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.criteria-area-bar {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) 1fr;
+  gap: 14px;
+  align-items: end;
+  margin-bottom: 16px;
+}
+
 .criteria-grid {
   grid-template-columns: 1fr 1.4fr 150px 160px 90px auto;
   align-items: end;
@@ -567,6 +582,12 @@ select {
   min-width: 860px;
 }
 
+.download-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 
 .toggle {
   display: flex;
@@ -716,6 +737,7 @@ tr:last-child td {
   .material-category-card,
   .critical-form,
   .stock-override-form,
+  .criteria-area-bar,
   .criteria-grid,
   .upload-box,
   .material-result {
