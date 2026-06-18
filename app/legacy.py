@@ -1,11 +1,11 @@
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from email.parser import BytesParser
+from email.policy import default as email_policy
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
-import cgi
 import io
 import json
 import mimetypes
-import shutil
 import sqlite3
 import sys
 import uuid
@@ -16,10 +16,15 @@ from openpyxl import Workbook, load_workbook
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 VENDOR_DIR = BASE_DIR / "vendor"
-if VENDOR_DIR.exists():
-    sys.path.insert(0, str(VENDOR_DIR))
 
-import bcrypt
+try:
+    import bcrypt
+except ModuleNotFoundError:
+    if VENDOR_DIR.exists():
+        sys.path.insert(0, str(VENDOR_DIR))
+        import bcrypt
+    else:
+        raise
 
 PACKAGED_APP = (BASE_DIR / "PACKAGED_APP").exists()
 STATIC_DIR = BASE_DIR / "static"
@@ -1201,6 +1206,34 @@ def json_response(handler, status, payload):
     handler.wfile.write(body)
 
 
+def parse_multipart_form(handler):
+    content_type = handler.headers.get("Content-Type", "")
+    if not content_type.startswith("multipart/form-data"):
+        return {"fields": {}, "files": {}}
+
+    length = int(handler.headers.get("Content-Length", "0"))
+    body = handler.rfile.read(length)
+    message = BytesParser(policy=email_policy).parsebytes(
+        b"Content-Type: " + content_type.encode("utf-8") + b"\r\n"
+        b"MIME-Version: 1.0\r\n\r\n" + body
+    )
+
+    fields = {}
+    files = {}
+    for part in message.iter_parts():
+        name = part.get_param("name", header="content-disposition")
+        if not name:
+            continue
+        payload = part.get_payload(decode=True) or b""
+        filename = part.get_filename()
+        if filename:
+            files[name] = {"filename": filename, "content": payload}
+        else:
+            charset = part.get_content_charset() or "utf-8"
+            fields[name] = payload.decode(charset, errors="replace")
+    return {"fields": fields, "files": files}
+
+
 def parse_cookies(header):
     cookies = {}
     if not header:
@@ -2077,18 +2110,15 @@ class AppHandler(BaseHTTPRequestHandler):
         if parsed.path == "/api/upload":
             if not require_user(self):
                 return
-            form = cgi.FieldStorage(fp=self.rfile, headers=self.headers, environ={
-                "REQUEST_METHOD": "POST",
-                "CONTENT_TYPE": self.headers.get("Content-Type"),
-            })
-            file_item = form["file"] if "file" in form else None
-            if not file_item or not file_item.filename:
+            form = parse_multipart_form(self)
+            file_item = form["files"].get("file")
+            if not file_item or not file_item.get("filename"):
                 return json_response(self, 400, {"error": "Please choose an Excel file."})
-            category = normalize_category(form.getvalue("category", DEFAULT_CATEGORY))
-            upload_name = Path(file_item.filename).name
+            category = normalize_category(form["fields"].get("category", DEFAULT_CATEGORY))
+            upload_name = Path(file_item["filename"]).name
             saved_path = UPLOAD_DIR / f"{uuid.uuid4().hex}_{upload_name}"
             with saved_path.open("wb") as output:
-                shutil.copyfileobj(file_item.file, output)
+                output.write(file_item["content"])
             try:
                 user = current_user(self) or {}
                 result = process_upload(saved_path, upload_name, category, user.get("email", ""))
