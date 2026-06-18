@@ -11,7 +11,7 @@ Local MVP for daily Excel upload, stock criteria checking, and reorder report do
 Then open:
 
 ```text
-http://localhost:8000
+http://127.0.0.1:8000
 ```
 
 ## Demo Logins
