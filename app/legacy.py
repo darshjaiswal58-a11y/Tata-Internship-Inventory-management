@@ -1469,28 +1469,30 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
     uploads = read_json(UPLOADS_FILE)
 
     try:
-        wb = load_workbook(file_path, data_only=True)
+        wb = load_workbook(file_path, read_only=True, data_only=True)
     except Exception as exc:
         raise ValueError(f"Invalid Excel file: {exc}")
     ws = wb.active
-    rows = list(ws.iter_rows(values_only=True))
-    if not rows:
+    row_iterator = ws.iter_rows(values_only=True)
+    try:
+        header_row = next(row_iterator)
+    except StopIteration:
         raise ValueError("Excel sheet is empty.")
 
-    headers = [str(value).strip() if value is not None else "" for value in rows[0]]
+    headers = [str(value).strip() if value is not None else "" for value in header_row]
     idx = {
         "Purchase Order Date": find_column(headers, ["Purchase Order Date", "PO Date", "Document Date", "Purchase Doc Date"]),
         "Entry Date": find_column(headers, ["Entry Date", "Posting Date", "GR Date", "Goods Receipt Date"]),
         "Material": find_column(headers, ["Material", "Part Number", "Part No", "Material Code"]),
-        "Material Description": find_column(headers, ["Material Description", "Description", "Part Description", "Part Desc", "Short Text"]),
-        "Quantity": find_column(headers, ["Quantity", "Qty in unit of entry", "Qty in order unit", "Qty in OPUn", "Receipt Quantity"]),
+        "Material Description": find_column(headers, ["Material Description", "Material Desc", "Description", "Part Description", "Part Desc", "Short Text", "Text"]),
+        "Quantity": find_column(headers, ["Quantity", "Qty in unit of entry", "Qty in order unit", "Qty in OPUn", "Receipt Quantity", "Qty"]),
         "Days Between": find_column(headers, ["Days Between", "Days_Between", "Ageing Days", "Aging Days", "Lead Time Days"]),
-        "Valuated Stock": find_column(headers, ["Valuated Stock", "Current Stock", "Current_Stock", "Stock", "Stock Qty", "Unrestricted Stock"]),
+        "Valuated Stock": find_column(headers, ["Valuated Stock", "Current Stock", "Current_Stock", "Stock", "Stock Qty", "Unrestricted Stock", "Qty in unit of entry", "Quantity"]),
         "Movement Type": find_column(headers, ["Movement Type", "Movement type", "MvT", "Movement"]),
     }
     if idx["Valuated Stock"] is None:
         idx["Valuated Stock"] = idx["Quantity"]
-    required_labels = ["Material", "Material Description", "Quantity", "Valuated Stock"]
+    required_labels = ["Material", "Quantity", "Valuated Stock"]
     missing = [label for label in required_labels if idx.get(label) is None]
     if idx["Days Between"] is None and (idx["Purchase Order Date"] is None or idx["Entry Date"] is None):
         missing.append("Days Between or both Entry/Posting Date and Purchase Order/Document Date")
@@ -1515,7 +1517,13 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
     failed_by_material = {}
     analyzed_by_material = {}
     no_criteria_by_material = {}
-    learned_material_groups = []
+    learned_material_groups = {}
+    criteria_lookup = {
+        str(setting.get("material", "")).strip(): setting
+        for setting in criteria.values()
+        if str(setting.get("material", "")).strip()
+        and normalize_category(setting.get("category", DEFAULT_CATEGORY)) == category
+    }
 
     errors = []
 
@@ -1536,7 +1544,7 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
             return True
         return parse_date_value(value) is not None
 
-    for row_index, raw in enumerate(rows[1:], start=2):
+    for row_index, raw in enumerate(row_iterator, start=2):
         if not raw or all(value is None for value in raw):
             continue
 
@@ -1563,13 +1571,15 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
             uploaded_material_group = str(raw[material_group_idx] or "").strip()
         material_group = uploaded_material_group or material_group_for(material)
         critical_default = default_critical_for(material, category)
+        if not description:
+            description = str(critical_default.get("description") or materials.get(material, {}).get("description", "")).strip()
         net_consumption = critical_default.get("net_consumption", "")
         if uploaded_material_group:
-            learned_material_groups.append({
+            learned_material_groups[material] = {
                 "material": material,
                 "material_group": uploaded_material_group,
                 "description": description,
-            })
+            }
         # Validate numeric fields
         q_cell = cell("Quantity")
         vs_cell = cell("Valuated Stock")
@@ -1646,7 +1656,19 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
         }
         imported_rows += 1
 
-        material_criteria = get_material_criteria(criteria, category, material)
+        material_criteria = criteria_lookup.get(material)
+        if material_criteria is None and critical_default:
+            material_criteria = {
+                "material": material,
+                "description": critical_default.get("description", ""),
+                "category": category,
+                "minimum_stock": critical_default.get("critical_value", 0),
+                "reorder_quantity": critical_default.get("net_consumption", 0),
+                "net_consumption": critical_default.get("net_consumption", 0),
+                "material_group": critical_default.get("material_group", ""),
+                "default_critical": True,
+                "active": True,
+            }
         if not material_criteria or not material_criteria.get("active", True):
             no_criteria_count += 1
             no_criteria_by_material[material] = {
@@ -1683,7 +1705,7 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
             }
 
     if learned_material_groups:
-        learn_material_groups_bulk(learned_material_groups)
+        learn_material_groups_bulk(learned_material_groups.values())
 
     # If any validation errors were collected, reject the upload with a clear message.
     if errors:
