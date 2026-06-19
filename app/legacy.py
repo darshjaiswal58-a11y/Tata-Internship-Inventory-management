@@ -10,6 +10,7 @@ import sqlite3
 import sys
 import uuid
 from datetime import datetime
+from threading import Lock
 
 from openpyxl import Workbook, load_workbook
 
@@ -70,6 +71,8 @@ SESSIONS = {}
 MATERIAL_GROUP_CACHE = None
 MATERIAL_CRITICAL_DEFAULTS_CACHE = None
 STOCK_ZONE_ANALYSIS_CACHE = None
+UPLOAD_PROGRESS = {}
+UPLOAD_PROGRESS_LOCK = Lock()
 
 CATEGORIES = {
     "ml_spare": "Machinery Spare",
@@ -117,6 +120,35 @@ def read_json(path):
 
 def write_json(path, payload):
     path.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
+
+
+def set_upload_progress(job_id, percent, message, state="processing", category=None):
+    if not job_id:
+        return
+    percent = max(0, min(100, int(percent)))
+    payload = {
+        "job_id": job_id,
+        "percent": percent,
+        "message": message,
+        "state": state,
+        "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    }
+    if category:
+        payload["category"] = category
+        payload["category_label"] = CATEGORIES.get(category, category)
+    with UPLOAD_PROGRESS_LOCK:
+        existing = UPLOAD_PROGRESS.get(job_id, {})
+        UPLOAD_PROGRESS[job_id] = {**existing, **payload}
+
+
+def get_upload_progress(job_id):
+    if not job_id:
+        return {"state": "missing", "percent": 0, "message": "Waiting for upload to start."}
+    with UPLOAD_PROGRESS_LOCK:
+        progress = dict(UPLOAD_PROGRESS.get(job_id, {}))
+    if not progress:
+        return {"job_id": job_id, "state": "pending", "percent": 0, "message": "Waiting for upload to start."}
+    return progress
 
 
 def db_connection():
@@ -1509,23 +1541,30 @@ def upload_analysis_summary(category):
     }
 
 
-def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded_by=""):
+def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded_by="", progress_callback=None):
     category = normalize_category(category)
     criteria = read_json(CRITERIA_FILE)
     materials = read_json(MATERIALS_FILE)
     uploads = read_json(UPLOADS_FILE)
 
+    def progress(percent, message):
+        if progress_callback:
+            progress_callback(percent, message)
+
+    progress(8, "Opening Excel workbook.")
     try:
         wb = load_workbook(file_path, read_only=True, data_only=True)
     except Exception as exc:
         raise ValueError(f"Invalid Excel file: {exc}")
     ws = wb.active
+    total_data_rows = max((ws.max_row or 1) - 1, 1)
     row_iterator = ws.iter_rows(values_only=True)
     try:
         header_row = next(row_iterator)
     except StopIteration:
         raise ValueError("Excel sheet is empty.")
 
+    progress(14, "Reading Excel headers.")
     headers = [str(value).strip() if value is not None else "" for value in header_row]
     idx = {
         "Purchase Order Date": find_column(headers, ["Purchase Order Date", "PO Date", "Document Date", "Purchase Doc Date"]),
@@ -1549,6 +1588,7 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
             + ", ".join(missing)
             + ". Accepted alternatives include SAP headers like Posting Date, Document Date, Qty in unit of entry, and Quantity."
         )
+    progress(18, f"Analyzing {CATEGORIES.get(category, category)} rows.")
     material_group_idx = find_column(headers, [
         "Material Group",
         "Material Category",
@@ -1592,6 +1632,10 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
         return parse_date_value(value) is not None
 
     for row_index, raw in enumerate(row_iterator, start=2):
+        processed_rows = row_index - 1
+        if processed_rows == 1 or processed_rows % 50 == 0 or processed_rows >= total_data_rows:
+            row_percent = 18 + min(67, int((processed_rows / total_data_rows) * 67))
+            progress(row_percent, f"Analyzed {min(processed_rows, total_data_rows)} of {total_data_rows} rows.")
         if not raw or all(value is None for value in raw):
             continue
 
@@ -1752,6 +1796,7 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
             }
 
     if learned_material_groups:
+        progress(87, "Updating material group lookup.")
         learn_material_groups_bulk(learned_material_groups.values())
 
     # If any validation errors were collected, reject the upload with a clear message.
@@ -1764,6 +1809,7 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
     failed_rows = sorted(failed_by_material.values(), key=lambda item: (item["current_stock"], item["material"]))
     analyzed_rows = sorted(analyzed_by_material.values(), key=lambda item: item["material"])
     no_criteria_rows = sorted(no_criteria_by_material.values(), key=lambda item: item["material"])
+    progress(90, "Building Excel reports.")
     report_path = save_report(upload_id, failed_rows)
     analysis_path = save_analysis(upload_id, failed_rows, no_criteria_count, analyzed_rows, no_criteria_rows)
     upload_record = {
@@ -1786,9 +1832,11 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
     }
     uploads.insert(0, upload_record)
 
+    progress(94, "Saving analyzed data.")
     write_json(MATERIALS_FILE, materials)
     write_json(UPLOADS_FILE, uploads)
 
+    progress(98, "Refreshing dashboard summary.")
     return {
         "upload": upload_record,
         "failed_rows": failed_rows,
@@ -2072,6 +2120,12 @@ class AppHandler(BaseHTTPRequestHandler):
                     if normalize_category(item.get("category", DEFAULT_CATEGORY)) == category
                 ]
             return json_response(self, 200, uploads)
+        if path == "/api/upload-progress":
+            if not require_user(self):
+                return
+            query = parse_qs(parsed.query)
+            job_id = query.get("job_id", [""])[0]
+            return json_response(self, 200, get_upload_progress(job_id))
         if path == "/api/analysis":
             if not require_user(self):
                 return
@@ -2313,15 +2367,25 @@ class AppHandler(BaseHTTPRequestHandler):
             if not file_item or not file_item.get("filename"):
                 return json_response(self, 400, {"error": "Please choose an Excel file."})
             category = normalize_category(form["fields"].get("category", DEFAULT_CATEGORY))
+            job_id = str(form["fields"].get("job_id", "")).strip() or uuid.uuid4().hex
             upload_name = Path(file_item["filename"]).name
             saved_path = UPLOAD_DIR / f"{uuid.uuid4().hex}_{upload_name}"
+            set_upload_progress(job_id, 3, "Saving uploaded Excel file.", category=category)
             with saved_path.open("wb") as output:
                 output.write(file_item["content"])
             try:
                 user = current_user(self) or {}
-                result = process_upload(saved_path, upload_name, category, user.get("email", ""))
+                result = process_upload(
+                    saved_path,
+                    upload_name,
+                    category,
+                    user.get("email", ""),
+                    progress_callback=lambda percent, message: set_upload_progress(job_id, percent, message, category=category),
+                )
+                set_upload_progress(job_id, 100, "Excel processing completed.", state="done", category=category)
                 return json_response(self, 200, result)
             except Exception as exc:
+                set_upload_progress(job_id, 100, str(exc), state="error", category=category)
                 return json_response(self, 400, {"error": str(exc)})
 
         return json_response(self, 404, {"error": "Unknown endpoint."})

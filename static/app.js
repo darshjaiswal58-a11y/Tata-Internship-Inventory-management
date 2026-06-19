@@ -6,6 +6,7 @@ let currentMaterialGroup = "";
 let latestSummary = null;
 let materialGroups = [];
 let criticalTimer = null;
+let uploadProgressTimer = null;
 const RED_ZONE_VALUE = "__red_zone__";
 let selectedZone = "red";
 
@@ -36,6 +37,57 @@ async function api(path, options = {}) {
     throw new Error(payload.error || "Request failed");
   }
   return payload;
+}
+
+function createJobId() {
+  if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function renderUploadProgress(percent, message) {
+  const progress = $("#uploadProgress");
+  const fill = $("#uploadProgressBar");
+  const percentLabel = $("#uploadProgressPercent");
+  const label = $("#uploadProgressLabel");
+  const value = Math.max(0, Math.min(100, Math.round(Number(percent) || 0)));
+  progress.hidden = false;
+  fill.style.width = `${value}%`;
+  percentLabel.textContent = `${value}%`;
+  label.textContent = message || "Processing Excel...";
+}
+
+function setUploadBusy(isBusy) {
+  const button = $("#processExcelButton");
+  const fileInput = $("#excelFile");
+  if (button) {
+    button.disabled = isBusy;
+    button.textContent = isBusy ? "Processing..." : "Process Excel";
+  }
+  if (fileInput) fileInput.disabled = isBusy;
+}
+
+function stopUploadProgressPolling() {
+  if (uploadProgressTimer) {
+    clearInterval(uploadProgressTimer);
+    uploadProgressTimer = null;
+  }
+}
+
+function startUploadProgressPolling(jobId, categoryLabel) {
+  stopUploadProgressPolling();
+  renderUploadProgress(2, `Uploading ${categoryLabel} Excel...`);
+  uploadProgressTimer = setInterval(async () => {
+    try {
+      const progress = await api(`/api/upload-progress?job_id=${encodeURIComponent(jobId)}`);
+      const label = progress.category_label || categoryLabel;
+      renderUploadProgress(progress.percent || 0, progress.message ? `${label}: ${progress.message}` : `Processing ${label} Excel...`);
+      if (progress.state === "done" || progress.state === "error") {
+        stopUploadProgressPolling();
+      }
+    } catch (error) {
+      renderUploadProgress(2, `Uploading ${categoryLabel} Excel...`);
+    }
+  }, 500);
 }
 
 function fmt(value) {
@@ -799,7 +851,12 @@ $("#uploadForm").addEventListener("submit", async (event) => {
   const status = $("#uploadStatus");
   status.className = "status";
   status.textContent = "Processing Excel...";
+  const categoryLabel = categoryLabels[currentCategory] || "selected category";
+  const jobId = createJobId();
+  setUploadBusy(true);
+  startUploadProgressPolling(jobId, categoryLabel);
   const formData = new FormData(event.currentTarget);
+  formData.set("job_id", jobId);
   try {
     const result = await api("/api/upload", {
       method: "POST",
@@ -808,6 +865,8 @@ $("#uploadForm").addEventListener("submit", async (event) => {
     const categoryMessage = result.upload.material_group_column_found
       ? ` Material groups updated from Excel (${result.upload.learned_material_groups} group(s)).`
       : " No material group column found; using saved master lookup.";
+    stopUploadProgressPolling();
+    renderUploadProgress(100, `${categoryLabel}: Excel processing completed.`);
     status.textContent = `Imported ${result.upload.imported_rows} rows. Failed criteria: ${result.upload.failed_count}.${categoryMessage}`;
     renderUploadActions(result.upload);
     setSummary(result.summary);
@@ -818,8 +877,12 @@ $("#uploadForm").addEventListener("submit", async (event) => {
     });
     await refresh();
   } catch (error) {
+    stopUploadProgressPolling();
+    renderUploadProgress(100, `${categoryLabel}: Processing stopped.`);
     status.className = "status error";
     status.textContent = error.message;
+  } finally {
+    setUploadBusy(false);
   }
 });
 

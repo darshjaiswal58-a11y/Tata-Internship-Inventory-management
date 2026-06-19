@@ -232,8 +232,17 @@
         <form id="uploadForm" class="upload-box">
           <input id="uploadCategory" name="category" type="hidden" value="ml_spare">
           <input id="excelFile" name="file" type="file" accept=".xlsx" required>
-          <button type="submit">Process Excel</button>
+          <button id="processExcelButton" type="submit">Process Excel</button>
         </form>
+        <div id="uploadProgress" class="progress-card" hidden>
+          <div class="progress-meta">
+            <span id="uploadProgressLabel">Preparing Excel...</span>
+            <strong id="uploadProgressPercent">0%</strong>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div id="uploadProgressBar" class="progress-fill"></div>
+          </div>
+        </div>
         <div id="uploadStatus" class="status"></div>
         <div id="uploadActions" class="inline-actions"></div>
       </section>
