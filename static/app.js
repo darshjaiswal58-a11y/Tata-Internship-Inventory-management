@@ -853,10 +853,10 @@ $("#uploadForm").addEventListener("submit", async (event) => {
   status.textContent = "Processing Excel...";
   const categoryLabel = categoryLabels[currentCategory] || "selected category";
   const jobId = createJobId();
-  setUploadBusy(true);
-  startUploadProgressPolling(jobId, categoryLabel);
   const formData = new FormData(event.currentTarget);
   formData.set("job_id", jobId);
+  setUploadBusy(true);
+  startUploadProgressPolling(jobId, categoryLabel);
   try {
     const result = await api("/api/upload", {
       method: "POST",
