@@ -1824,7 +1824,11 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
         "used_rows": used_rows,
         "used_quantity_total": used_quantity_total,
         "material_group_column_found": material_group_idx is not None,
-        "learned_material_groups": len({row["material_group"] for row in learned_material_groups}),
+        "learned_material_groups": len({
+            row["material_group"]
+            for row in learned_material_groups.values()
+            if row.get("material_group")
+        }),
         "failed_count": len(failed_rows),
         "no_criteria_count": no_criteria_count,
         "report_file": report_path.name,
