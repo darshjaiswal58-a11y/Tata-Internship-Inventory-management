@@ -30,7 +30,7 @@ function currentStockFilterCriteriaText() {
 }
 
 async function api(path, options = {}) {
-  const response = await fetch(path, options);
+  const response = await fetch(path, { credentials: "same-origin", ...options });
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
     throw new Error(payload.error || "Request failed");
@@ -795,6 +795,7 @@ $("#materialResults").addEventListener("click", (event) => {
 
 $("#uploadForm").addEventListener("submit", async (event) => {
   event.preventDefault();
+  $("#uploadCategory").value = currentCategory;
   const status = $("#uploadStatus");
   status.className = "status";
   status.textContent = "Processing Excel...";

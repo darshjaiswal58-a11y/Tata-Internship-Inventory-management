@@ -173,6 +173,44 @@ def authenticate_user(email, password):
     return user_from_row(user)
 
 
+def create_session(email):
+    email = str(email or "").strip().lower()
+    session_id = uuid.uuid4().hex
+    SESSIONS[session_id] = email
+    with db_connection() as connection:
+        connection.execute(
+            "INSERT OR REPLACE INTO sessions (id, email, created_at) VALUES (?, ?, ?)",
+            (session_id, email, datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
+        )
+    return session_id
+
+
+def email_for_session(session_id):
+    if not session_id:
+        return None
+    email = SESSIONS.get(session_id)
+    if email:
+        return email
+    with db_connection() as connection:
+        row = connection.execute(
+            "SELECT email FROM sessions WHERE id = ?",
+            (session_id,),
+        ).fetchone()
+    if not row:
+        return None
+    email = row["email"]
+    SESSIONS[session_id] = email
+    return email
+
+
+def delete_session(session_id):
+    if not session_id:
+        return
+    SESSIONS.pop(session_id, None)
+    with db_connection() as connection:
+        connection.execute("DELETE FROM sessions WHERE id = ?", (session_id,))
+
+
 def init_user_db():
     with db_connection() as connection:
         connection.execute(
@@ -183,6 +221,15 @@ def init_user_db():
                 email TEXT UNIQUE,
                 password_hash TEXT,
                 role TEXT
+            )
+            """
+        )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS sessions (
+                id TEXT PRIMARY KEY,
+                email TEXT,
+                created_at TEXT
             )
             """
         )
@@ -1271,7 +1318,7 @@ def current_user(handler):
     session_id = cookies.get("session_id")
     if not session_id:
         return None
-    email = SESSIONS.get(session_id)
+    email = email_for_session(session_id)
     if not email:
         return None
     user = get_user_by_email(email)
@@ -2138,8 +2185,7 @@ class AppHandler(BaseHTTPRequestHandler):
                 user = create_user(name, email, password, role)
             except ValueError as exc:
                 return json_response(self, 409, {"error": str(exc)})
-            session_id = uuid.uuid4().hex
-            SESSIONS[session_id] = email
+            session_id = create_session(email)
             body = json.dumps({"user": user}).encode("utf-8")
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
@@ -2157,8 +2203,7 @@ class AppHandler(BaseHTTPRequestHandler):
             user = authenticate_user(email, password)
             if not user:
                 return json_response(self, 401, {"error": "Invalid email or password."})
-            session_id = uuid.uuid4().hex
-            SESSIONS[session_id] = email
+            session_id = create_session(email)
             body = json.dumps({"user": user}).encode("utf-8")
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
@@ -2171,8 +2216,7 @@ class AppHandler(BaseHTTPRequestHandler):
         if parsed.path == "/api/logout":
             cookies = parse_cookies(self.headers.get("Cookie"))
             session_id = cookies.get("session_id")
-            if session_id in SESSIONS:
-                del SESSIONS[session_id]
+            delete_session(session_id)
             body = json.dumps({"ok": True}).encode("utf-8")
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
