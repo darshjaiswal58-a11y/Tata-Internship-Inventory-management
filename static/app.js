@@ -7,6 +7,7 @@ let latestSummary = null;
 let materialGroups = [];
 let criticalTimer = null;
 let uploadProgressTimer = null;
+let inventoryProgressTimer = null;
 const RED_ZONE_VALUE = "__red_zone__";
 let selectedZone = "red";
 
@@ -176,8 +177,19 @@ function renderCategoryCards(categories) {
 }
 
 function showDashboard() {
+  $("#inventoryWorkspace").hidden = true;
   $("#workflow").hidden = true;
   $("#dashboard").hidden = false;
+}
+
+function showInventoryWorkspace() {
+  $("#dashboard").hidden = true;
+  $("#workflow").hidden = true;
+  $("#inventoryWorkspace").hidden = false;
+  refreshInventory().catch((error) => {
+    $("#inventoryStatus").className = "status error";
+    $("#inventoryStatus").textContent = error.message;
+  });
 }
 
 async function selectCategory(category) {
@@ -192,6 +204,7 @@ async function selectCategory(category) {
   $("#materialSearch").value = "";
   renderMaterialResults([]);
   $("#dashboard").hidden = true;
+  $("#inventoryWorkspace").hidden = true;
   $("#workflow").hidden = false;
   await refresh();
   const rows = await api(`/api/materials?category=${encodeURIComponent(currentCategory)}&material_group=${encodeURIComponent(currentMaterialGroup)}`);
@@ -558,6 +571,140 @@ function renderAnalysis(result) {
   renderFailed(rows);
 }
 
+function number(value) {
+  return Number(value || 0);
+}
+
+function inventoryNumber(value) {
+  return new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 }).format(number(value));
+}
+
+function chartEmpty(svg, message) {
+  svg.innerHTML = `<text class="empty-label" x="340" y="150" text-anchor="middle">${message}</text>`;
+}
+
+function renderInventoryPlantChart(plants) {
+  const svg = $("#inventoryPlantChart");
+  if (!plants.length) return chartEmpty(svg, "Upload an inventory Excel to view plant ageing.");
+  const width = 680;
+  const height = 300;
+  const left = 58;
+  const right = 22;
+  const top = 26;
+  const bottom = 58;
+  const plotHeight = height - top - bottom;
+  const maxValue = Math.max(1, ...plants.flatMap((row) => [number(row.qty_0_30), number(row.over_six_months), number(row.qty_over_2_years)]));
+  const groupWidth = (width - left - right) / plants.length;
+  const barWidth = Math.max(8, Math.min(28, groupWidth / 4));
+  let markup = `<line class="axis" x1="${left}" y1="${height - bottom}" x2="${width - right}" y2="${height - bottom}"/>`;
+  [0, 0.5, 1].forEach((ratio) => {
+    const y = top + plotHeight * (1 - ratio);
+    markup += `<line class="axis" x1="${left}" y1="${y}" x2="${width - right}" y2="${y}" opacity="${ratio ? 0.5 : 1}"/><text class="axis-label" x="${left - 8}" y="${y + 4}" text-anchor="end">${inventoryNumber(maxValue * ratio)}</text>`;
+  });
+  plants.forEach((row, index) => {
+    const x = left + index * groupWidth + groupWidth / 2;
+    const series = [
+      { value: number(row.qty_0_30), color: "#3b82f6" },
+      { value: number(row.over_six_months), color: "#e3a008" },
+      { value: number(row.qty_over_2_years), color: "#c2410c" },
+    ];
+    series.forEach((item, seriesIndex) => {
+      const barHeight = item.value * plotHeight / maxValue;
+      const barX = x + (seriesIndex - 1) * (barWidth + 4) - barWidth / 2;
+      markup += `<rect x="${barX}" y="${height - bottom - barHeight}" width="${barWidth}" height="${barHeight}" fill="${item.color}" rx="2"><title>${row.plant}: ${inventoryNumber(item.value)}</title></rect>`;
+    });
+    markup += `<text class="chart-label" x="${x}" y="${height - bottom + 22}" text-anchor="middle">${String(row.plant).replaceAll("&", "&amp;").replaceAll("<", "&lt;")}</text>`;
+  });
+  markup += `<text class="axis-label" x="${left}" y="16">0-30 days</text><rect x="${left + 58}" y="7" width="12" height="12" fill="#3b82f6"/><text class="axis-label" x="${left + 78}" y="16">Over 6 months</text><rect x="${left + 172}" y="7" width="12" height="12" fill="#e3a008"/><text class="axis-label" x="${left + 192}" y="16">Over 2 years</text><rect x="${left + 282}" y="7" width="12" height="12" fill="#c2410c"/>`;
+  svg.innerHTML = markup;
+}
+
+function renderInventoryHistoryChart(history) {
+  const svg = $("#inventoryHistoryChart");
+  if (!history.length) return chartEmpty(svg, "Upload more than one inventory Excel to compare history.");
+  const width = 680;
+  const height = 300;
+  const left = 58;
+  const right = 22;
+  const top = 30;
+  const bottom = 64;
+  const plotHeight = height - top - bottom;
+  const plotWidth = width - left - right;
+  const values = history.map((row) => number(row.total_value));
+  const maxValue = Math.max(1, ...values);
+  const points = values.map((value, index) => {
+    const x = history.length === 1 ? left + plotWidth / 2 : left + index * plotWidth / (history.length - 1);
+    const y = top + (1 - value / maxValue) * plotHeight;
+    return { x, y, value, label: String(history[index].uploaded_at || "").slice(0, 10) };
+  });
+  let markup = `<line class="axis" x1="${left}" y1="${height - bottom}" x2="${width - right}" y2="${height - bottom}"/>`;
+  [0, 0.5, 1].forEach((ratio) => {
+    const y = top + plotHeight * (1 - ratio);
+    markup += `<line class="axis" x1="${left}" y1="${y}" x2="${width - right}" y2="${y}" opacity="${ratio ? 0.5 : 1}"/><text class="axis-label" x="${left - 8}" y="${y + 4}" text-anchor="end">${inventoryNumber(maxValue * ratio)}</text>`;
+  });
+  markup += `<polyline fill="none" stroke="#0f8b8d" stroke-width="3" points="${points.map((point) => `${point.x},${point.y}`).join(" ")}"/>`;
+  points.forEach((point) => {
+    markup += `<circle cx="${point.x}" cy="${point.y}" r="5" fill="#0f8b8d"><title>${point.label}: ${inventoryNumber(point.value)}</title></circle><text class="axis-label" x="${point.x}" y="${height - bottom + 22}" text-anchor="middle">${point.label}</text>`;
+  });
+  markup += `<text class="axis-label" x="${left}" y="16">Total inventory value</text>`;
+  svg.innerHTML = markup;
+}
+
+function renderInventory(data) {
+  const plants = data.plants || [];
+  const parts = data.parts || [];
+  $("#inventoryPlantCount").textContent = plants.length;
+  $("#inventoryPartCount").textContent = inventoryNumber(plants.reduce((sum, row) => sum + number(row.parts_count), 0));
+  $("#inventoryOverSixMonths").textContent = inventoryNumber(plants.reduce((sum, row) => sum + number(row.over_six_months), 0));
+  $("#inventoryOverTwoYears").textContent = inventoryNumber(plants.reduce((sum, row) => sum + number(row.qty_over_2_years), 0));
+  $("#inventoryMethod").textContent = data.method || "Upload an agewise inventory Excel to start analysis.";
+  $("#inventoryPlantRows").innerHTML = plants.length ? plants.map((row) => `
+    <tr><td>${fmt(row.plant)}</td><td>${inventoryNumber(row.parts_count)}</td><td>${inventoryNumber(row.total_stock)}</td><td>${inventoryNumber(row.total_value)}</td><td>${inventoryNumber(row.qty_0_30)}</td><td>${inventoryNumber(row.over_six_months)}</td><td>${inventoryNumber(row.qty_over_2_years)}</td><td>${inventoryNumber(row.attention_parts)}</td></tr>
+  `).join("") : `<tr><td class="empty" colspan="8">No inventory Excel has been analyzed yet.</td></tr>`;
+  $("#inventoryPartRows").innerHTML = parts.length ? parts.map((row) => `
+    <tr><td>${fmt(row.plant)}</td><td>${fmt(row.material)}</td><td>${fmt(row.description)}</td><td>${inventoryNumber(row.total_stock)}</td><td>${inventoryNumber(row.total_value)}</td><td>${inventoryNumber(row.qty_0_30)}</td><td>${inventoryNumber(row.over_six_months)}</td><td>${inventoryNumber(row.qty_over_2_years)}</td></tr>
+  `).join("") : `<tr><td class="empty" colspan="8">No inventory parts to show yet.</td></tr>`;
+  renderInventoryPlantChart(plants);
+  renderInventoryHistoryChart(data.history || []);
+}
+
+function renderInventoryProgress(percent, message) {
+  const value = Math.max(0, Math.min(100, Math.round(number(percent))));
+  $("#inventoryProgress").hidden = false;
+  $("#inventoryProgressBar").style.width = `${value}%`;
+  $("#inventoryProgressPercent").textContent = `${value}%`;
+  $("#inventoryProgressLabel").textContent = message || "Processing inventory Excel...";
+}
+
+function setInventoryBusy(isBusy) {
+  $("#processInventoryButton").disabled = isBusy;
+  $("#inventoryExcelFile").disabled = isBusy;
+  $("#processInventoryButton").textContent = isBusy ? "Analyzing..." : "Analyze Inventory";
+}
+
+function stopInventoryProgressPolling() {
+  if (inventoryProgressTimer) clearInterval(inventoryProgressTimer);
+  inventoryProgressTimer = null;
+}
+
+function startInventoryProgressPolling(jobId) {
+  stopInventoryProgressPolling();
+  renderInventoryProgress(2, "Uploading inventory Excel...");
+  inventoryProgressTimer = setInterval(async () => {
+    try {
+      const progress = await api(`/api/upload-progress?job_id=${encodeURIComponent(jobId)}`);
+      renderInventoryProgress(progress.percent, progress.message);
+      if (progress.state === "done" || progress.state === "error") stopInventoryProgressPolling();
+    } catch (_) {
+      renderInventoryProgress(2, "Uploading inventory Excel...");
+    }
+  }, 500);
+}
+
+async function refreshInventory() {
+  renderInventory(await api("/api/inventory-analysis"));
+}
+
 async function refresh() {
   const groupParam = encodeURIComponent(currentMaterialGroup);
   const [summary, criteria, uploads, analysis, overrides] = await Promise.all([
@@ -886,10 +1033,37 @@ $("#uploadForm").addEventListener("submit", async (event) => {
   }
 });
 
+$("#inventoryUploadForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const status = $("#inventoryStatus");
+  status.className = "status";
+  status.textContent = "Analyzing inventory Excel...";
+  const jobId = createJobId();
+  const formData = new FormData(event.currentTarget);
+  formData.set("job_id", jobId);
+  setInventoryBusy(true);
+  startInventoryProgressPolling(jobId);
+  try {
+    const result = await api("/api/inventory-upload", { method: "POST", body: formData });
+    stopInventoryProgressPolling();
+    renderInventoryProgress(100, "Inventory analysis completed.");
+    status.textContent = `Analyzed ${result.upload.parts_count} parts across ${result.upload.plants_count} plant(s).`;
+    renderInventory(result.analysis);
+  } catch (error) {
+    stopInventoryProgressPolling();
+    renderInventoryProgress(100, "Inventory processing stopped.");
+    status.className = "status error";
+    status.textContent = error.message;
+  } finally {
+    setInventoryBusy(false);
+  }
+});
+
 renderFailed([]);
 renderMaterialResults([]);
 renderGroupCriticalRows([]);
 renderUploadActions(null);
+renderInventory({});
 applyAuthState(null);
 loadSession().catch((error) => {
   $("#uploadStatus").className = "status error";
@@ -906,6 +1080,12 @@ document.querySelectorAll(".category-card").forEach((button) => {
 });
 
 $("#changeCategoryBtn").addEventListener("click", showDashboard);
+$("#inventoryLaunchButton").addEventListener("click", showInventoryWorkspace);
+$("#inventoryBackButton").addEventListener("click", showDashboard);
+$("#inventoryLink").addEventListener("click", (event) => {
+  event.preventDefault();
+  showInventoryWorkspace();
+});
 $("#dashboardLink").addEventListener("click", (event) => {
   event.preventDefault();
   showDashboard();

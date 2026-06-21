@@ -33,6 +33,7 @@ DATA_DIR = BASE_DIR / "data"
 UPLOAD_DIR = DATA_DIR / "uploads"
 REPORT_DIR = DATA_DIR / "reports"
 ANALYSIS_DIR = DATA_DIR / "analysis"
+INVENTORY_ANALYSIS_DIR = DATA_DIR / "inventory_analysis"
 CRITERIA_FILE = DATA_DIR / "criteria.json"
 GROUP_CRITERIA_FILE = DATA_DIR / "group_criteria.json"
 STOCK_OVERRIDES_FILE = DATA_DIR / "stock_overrides.json"
@@ -40,6 +41,7 @@ USERS_DB = DATA_DIR / "users.db"
 MATERIAL_CRITICAL_DEFAULTS_FILE = DATA_DIR / "material_critical_defaults.json"
 STOCK_ZONE_ANALYSIS_FILE = DATA_DIR / "stock_zone_analysis.json"
 UPLOADS_FILE = DATA_DIR / "uploads.json"
+INVENTORY_UPLOADS_FILE = DATA_DIR / "inventory_uploads.json"
 MATERIALS_FILE = DATA_DIR / "materials.json"
 MATERIAL_GROUPS_FILE = DATA_DIR / "material_groups.json"
 MATERIAL_GROUP_SOURCE = BASE_DIR.parent / "updated" / "Material group 3002 and 3004.xlsx"
@@ -93,7 +95,7 @@ STOCK_PLANT_BY_CATEGORY = {
 
 
 def ensure_dirs():
-    for path in [STATIC_DIR, DATA_DIR, UPLOAD_DIR, REPORT_DIR, ANALYSIS_DIR]:
+    for path in [STATIC_DIR, DATA_DIR, UPLOAD_DIR, REPORT_DIR, ANALYSIS_DIR, INVENTORY_ANALYSIS_DIR]:
         path.mkdir(parents=True, exist_ok=True)
     for file_path, empty in [
         (CRITERIA_FILE, {}),
@@ -102,6 +104,7 @@ def ensure_dirs():
         (MATERIAL_CRITICAL_DEFAULTS_FILE, {"materials": {}}),
         (STOCK_ZONE_ANALYSIS_FILE, {"counts": {"red": 0, "yellow": 0, "green": 0}, "materials": {}}),
         (UPLOADS_FILE, []),
+        (INVENTORY_UPLOADS_FILE, []),
         (MATERIALS_FILE, {}),
         (MATERIAL_GROUPS_FILE, {"groups": {}, "materials": {}}),
     ]:
@@ -1848,6 +1851,188 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
     }
 
 
+INVENTORY_BUCKET_COLUMNS = {
+    "qty_0_30": ["Qty in Days( 0 - 30 )", "Qty 0-30", "0-30 Days Qty"],
+    "qty_31_60": ["Qty in Days( 31 - 60 )", "Qty 31-60", "31-60 Days Qty"],
+    "qty_61_90": ["Qty in Days( 61 - 90 )", "Qty 61-90", "61-90 Days Qty"],
+    "qty_91_180": ["Qty in Days( 91 - 180 )", "Qty 91-180", "91-180 Days Qty"],
+    "qty_181_365": ["Qty in Days( 181 - 365 )", "Qty 181-365", "181-365 Days Qty"],
+    "qty_1_2_years": ["Qty ( 1 - 2 Yr )", "Qty 1-2 Yr", "1-2 Years Qty"],
+    "qty_over_2_years": ["Qty ( > 2 Yrs )", "Qty >2 Yr", "Qty > 2 Years", ">2 Years Qty"],
+}
+
+
+def inventory_analysis_for_upload(upload):
+    if not upload:
+        return {}
+    file_name = upload.get("analysis_file", "")
+    path = INVENTORY_ANALYSIS_DIR / file_name
+    return read_json(path) if file_name and path.exists() else {}
+
+
+def latest_inventory_analysis():
+    uploads = read_json(INVENTORY_UPLOADS_FILE)
+    upload = uploads[0] if uploads else None
+    return upload, inventory_analysis_for_upload(upload)
+
+
+def process_inventory_upload(file_path, original_name, uploaded_by="", progress_callback=None):
+    def progress(percent, message):
+        if progress_callback:
+            progress_callback(percent, message)
+
+    progress(8, "Opening inventory workbook.")
+    try:
+        wb = load_workbook(file_path, read_only=True, data_only=True)
+    except Exception as exc:
+        raise ValueError(f"Invalid Excel file: {exc}")
+    ws = wb.active
+    rows = ws.iter_rows(values_only=True)
+    try:
+        header_row = next(rows)
+    except StopIteration:
+        raise ValueError("Inventory Excel sheet is empty.")
+    headers = [str(value).strip() if value is not None else "" for value in header_row]
+    indexes = {
+        "plant": find_column(headers, ["Plant", "Plant Code"]),
+        "material": find_column(headers, ["Part Number", "Material", "Material Code", "Part No"]),
+        "description": find_column(headers, ["Description", "Material Description", "Part Description"]),
+        "total_stock": find_column(headers, ["Total Stock", "Current Stock", "Stock Qty", "Stock Quantity"]),
+        "total_value": find_column(headers, ["Total Value", "Stock Value", "Valuated Stock Value"]),
+    }
+    indexes.update({key: find_column(headers, candidates) for key, candidates in INVENTORY_BUCKET_COLUMNS.items()})
+    required = [label for label in ("plant", "material", "total_stock") if indexes[label] is None]
+    if required:
+        raise ValueError(
+            "Missing required inventory columns: "
+            + ", ".join(required)
+            + ". Expected columns include Plant, Part Number/Material, and Total Stock."
+        )
+
+    progress(15, "Reading inventory age buckets.")
+    total_rows = max((ws.max_row or 1) - 1, 1)
+    plants = {}
+    parts = {}
+    for row_index, row in enumerate(rows, start=2):
+        processed = row_index - 1
+        if processed == 1 or processed % 100 == 0 or processed >= total_rows:
+            progress(15 + min(70, int(processed * 70 / total_rows)), f"Analyzed {min(processed, total_rows)} of {total_rows} inventory rows.")
+        if not row or all(value is None for value in row):
+            continue
+
+        def cell(key):
+            index = indexes.get(key)
+            return row[index] if index is not None and index < len(row) else None
+
+        plant = str(cell("plant") or "Unassigned").strip()
+        material = str(cell("material") or "").strip()
+        if not material:
+            continue
+        description = str(cell("description") or "").strip()
+        stock = parse_number(cell("total_stock"))
+        value = parse_number(cell("total_value"))
+        bucket_values = {key: parse_number(cell(key)) for key in INVENTORY_BUCKET_COLUMNS}
+        over_six_months = bucket_values["qty_181_365"] + bucket_values["qty_1_2_years"] + bucket_values["qty_over_2_years"]
+        plant_summary = plants.setdefault(plant, {
+            "plant": plant,
+            "parts_count": 0,
+            "total_stock": 0,
+            "total_value": 0,
+            "qty_0_30": 0,
+            "qty_31_60": 0,
+            "qty_61_90": 0,
+            "qty_91_180": 0,
+            "qty_181_365": 0,
+            "qty_1_2_years": 0,
+            "qty_over_2_years": 0,
+            "over_six_months": 0,
+            "attention_parts": 0,
+        })
+        plant_summary["total_stock"] += stock
+        plant_summary["total_value"] += value
+        plant_summary["over_six_months"] += over_six_months
+        for key, bucket_value in bucket_values.items():
+            plant_summary[key] += bucket_value
+        part_key = f"{plant}::{material}"
+        part = parts.setdefault(part_key, {
+            "plant": plant,
+            "material": material,
+            "description": description,
+            "total_stock": 0,
+            "total_value": 0,
+            "qty_0_30": 0,
+            "qty_over_2_years": 0,
+            "over_six_months": 0,
+        })
+        part["total_stock"] += stock
+        part["total_value"] += value
+        part["qty_0_30"] += bucket_values["qty_0_30"]
+        part["qty_over_2_years"] += bucket_values["qty_over_2_years"]
+        part["over_six_months"] += over_six_months
+
+    part_rows = list(parts.values())
+    for plant_summary in plants.values():
+        plant_summary["parts_count"] = sum(1 for row in part_rows if row["plant"] == plant_summary["plant"])
+        plant_summary["attention_parts"] = sum(
+            1 for row in part_rows
+            if row["plant"] == plant_summary["plant"] and row["qty_over_2_years"] > 0
+        )
+        for key, value in list(plant_summary.items()):
+            if isinstance(value, float):
+                plant_summary[key] = round(value, 2)
+
+    progress(89, "Preparing inventory trend and part analysis.")
+    upload_id = uuid.uuid4().hex[:10]
+    part_rows.sort(key=lambda row: (-row["qty_over_2_years"], -row["over_six_months"], row["material"]))
+    analysis = {
+        "upload_id": upload_id,
+        "source_file": original_name,
+        "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "plants": sorted(plants.values(), key=lambda row: row["plant"]),
+        "parts": part_rows,
+        "method": "Age buckets are calculated directly from the inventory Excel. Consumption forecasting requires issue or consumption history.",
+    }
+    analysis_path = INVENTORY_ANALYSIS_DIR / f"inventory_analysis_{upload_id}.json"
+    write_json(analysis_path, analysis)
+    uploads = read_json(INVENTORY_UPLOADS_FILE)
+    upload = {
+        "id": upload_id,
+        "file_name": original_name,
+        "uploaded_by": uploaded_by,
+        "uploaded_at": analysis["generated_at"],
+        "plants_count": len(plants),
+        "parts_count": len(part_rows),
+        "analysis_file": analysis_path.name,
+    }
+    uploads.insert(0, upload)
+    write_json(INVENTORY_UPLOADS_FILE, uploads[:24])
+    progress(98, "Inventory analysis ready.")
+    return {"upload": upload, "analysis": analysis}
+
+
+def inventory_dashboard_payload():
+    upload, analysis = latest_inventory_analysis()
+    uploads = read_json(INVENTORY_UPLOADS_FILE)
+    history = []
+    for item in reversed(uploads[:12]):
+        snapshot = inventory_analysis_for_upload(item)
+        plants = snapshot.get("plants", [])
+        history.append({
+            "uploaded_at": item.get("uploaded_at", ""),
+            "file_name": item.get("file_name", ""),
+            "total_value": round(sum(parse_number(row.get("total_value")) for row in plants), 2),
+            "over_six_months": round(sum(parse_number(row.get("over_six_months")) for row in plants), 2),
+            "over_two_years": round(sum(parse_number(row.get("qty_over_2_years")) for row in plants), 2),
+        })
+    return {
+        "upload": upload,
+        "plants": analysis.get("plants", []),
+        "parts": analysis.get("parts", [])[:150],
+        "history": history,
+        "method": analysis.get("method", "Upload an agewise inventory Excel to start analysis."),
+    }
+
+
 def build_summary():
     criteria = read_json(CRITERIA_FILE)
     uploads = read_json(UPLOADS_FILE)
@@ -2124,6 +2309,14 @@ class AppHandler(BaseHTTPRequestHandler):
                     if normalize_category(item.get("category", DEFAULT_CATEGORY)) == category
                 ]
             return json_response(self, 200, uploads)
+        if path == "/api/inventory-analysis":
+            if not require_user(self):
+                return
+            return json_response(self, 200, inventory_dashboard_payload())
+        if path == "/api/inventory-uploads":
+            if not require_user(self):
+                return
+            return json_response(self, 200, read_json(INVENTORY_UPLOADS_FILE))
         if path == "/api/upload-progress":
             if not require_user(self):
                 return
@@ -2390,6 +2583,33 @@ class AppHandler(BaseHTTPRequestHandler):
                 return json_response(self, 200, result)
             except Exception as exc:
                 set_upload_progress(job_id, 100, str(exc), state="error", category=category)
+                return json_response(self, 400, {"error": str(exc)})
+
+        if parsed.path == "/api/inventory-upload":
+            if not require_user(self):
+                return
+            form = parse_multipart_form(self)
+            file_item = form["files"].get("file")
+            if not file_item or not file_item.get("filename"):
+                return json_response(self, 400, {"error": "Please choose an inventory Excel file."})
+            job_id = str(form["fields"].get("job_id", "")).strip() or uuid.uuid4().hex
+            upload_name = Path(file_item["filename"]).name
+            saved_path = UPLOAD_DIR / f"inventory_{uuid.uuid4().hex}_{upload_name}"
+            set_upload_progress(job_id, 3, "Saving inventory Excel file.", category="inventory")
+            with saved_path.open("wb") as output:
+                output.write(file_item["content"])
+            try:
+                user = current_user(self) or {}
+                result = process_inventory_upload(
+                    saved_path,
+                    upload_name,
+                    user.get("email", ""),
+                    progress_callback=lambda percent, message: set_upload_progress(job_id, percent, message, category="inventory"),
+                )
+                set_upload_progress(job_id, 100, "Inventory analysis completed.", state="done", category="inventory")
+                return json_response(self, 200, result)
+            except Exception as exc:
+                set_upload_progress(job_id, 100, str(exc), state="error", category="inventory")
                 return json_response(self, 400, {"error": str(exc)})
 
         return json_response(self, 404, {"error": "Unknown endpoint."})

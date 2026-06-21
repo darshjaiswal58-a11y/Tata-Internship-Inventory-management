@@ -150,8 +150,44 @@ main {
   color: var(--ink);
 }
 
+.inventory-launch {
+  display: grid;
+  gap: 7px;
+  width: 100%;
+  margin: 16px 0;
+  padding: 20px 22px;
+  border: 1px solid #9ac6c8;
+  border-radius: 8px;
+  background: #f3fbfb;
+  color: var(--ink);
+  text-align: left;
+}
+
+.inventory-launch:hover {
+  border-color: var(--accent);
+  background: #e9f7f7;
+}
+
+.inventory-launch span {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.inventory-launch strong {
+  font-size: 20px;
+}
+
+.inventory-launch small {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
 .workflow[hidden],
-.category-dashboard[hidden] {
+.category-dashboard[hidden],
+.inventory-workspace[hidden] {
   display: none;
 }
 
@@ -192,6 +228,44 @@ body:not(.is-admin) nav a[href="#criteria"] {
 
 .stats strong {
   font-size: 30px;
+}
+
+.inventory-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.inventory-charts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.inventory-chart-panel {
+  min-width: 0;
+}
+
+.inventory-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 250px;
+}
+
+.inventory-chart .axis {
+  stroke: #b9c2d0;
+  stroke-width: 1;
+}
+
+.inventory-chart .axis-label,
+.inventory-chart .empty-label {
+  fill: var(--muted);
+  font-size: 12px;
+}
+
+.inventory-chart .chart-label {
+  fill: #344054;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .panel {
@@ -775,7 +849,9 @@ tr:last-child td {
   }
 
   .stats,
+  .inventory-stats,
   .category-cards,
+  .inventory-charts,
   .material-category-card,
   .critical-form,
   .stock-override-form,

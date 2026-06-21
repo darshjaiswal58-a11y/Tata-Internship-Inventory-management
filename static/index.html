@@ -15,6 +15,7 @@
       <div class="top-actions">
         <nav>
           <a href="#dashboard" id="dashboardLink">Dashboard</a>
+          <a href="#inventory" id="inventoryLink">Inventory</a>
           <a href="#upload">Upload</a>
           <a href="#criteria">Criteria</a>
           <a href="#reports">Reports</a>
@@ -96,6 +97,12 @@
             </div>
           </button>
         </div>
+
+        <button id="inventoryLaunchButton" class="inventory-launch" type="button">
+          <span>Inventory Intelligence</span>
+          <strong>Agewise Inventory Analysis</strong>
+          <small>Upload the latest inventory Excel to refresh plant-level ageing, high-value stock, and parts held for more than two years.</small>
+        </button>
 
         <section class="panel material-category-panel dashboard-material-category">
           <div class="section-title">
@@ -420,6 +427,81 @@
         </div>
       </section>
       </div>
+
+      <section id="inventoryWorkspace" class="inventory-workspace" hidden>
+        <section class="selected-area">
+          <div>
+            <p class="eyebrow">Inventory Intelligence</p>
+            <h2>Agewise Inventory Analysis</h2>
+          </div>
+          <button id="inventoryBackButton" class="secondary" type="button">Back To Dashboard</button>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Latest Inventory</p>
+              <h2>Upload Agewise Inventory Excel</h2>
+            </div>
+            <p class="hint">The analysis reads Plant, Part Number, Total Stock, Total Value, and available ageing buckets directly from the file.</p>
+          </div>
+          <form id="inventoryUploadForm" class="upload-box">
+            <input id="inventoryExcelFile" name="file" type="file" accept=".xlsx" required>
+            <button id="processInventoryButton" type="submit">Analyze Inventory</button>
+          </form>
+          <div id="inventoryProgress" class="progress-card" hidden>
+            <div class="progress-meta">
+              <span id="inventoryProgressLabel">Preparing inventory Excel...</span>
+              <strong id="inventoryProgressPercent">0%</strong>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+              <div id="inventoryProgressBar" class="progress-fill"></div>
+            </div>
+          </div>
+          <div id="inventoryStatus" class="status"></div>
+        </section>
+
+        <section class="stats inventory-stats" aria-label="Inventory summary">
+          <article><span>Plants Analyzed</span><strong id="inventoryPlantCount">0</strong></article>
+          <article><span>Parts Analyzed</span><strong id="inventoryPartCount">0</strong></article>
+          <article><span>Over 6 Months</span><strong id="inventoryOverSixMonths">0</strong></article>
+          <article><span>Over 2 Years</span><strong id="inventoryOverTwoYears">0</strong></article>
+        </section>
+
+        <section class="inventory-charts">
+          <article class="panel inventory-chart-panel">
+            <div class="section-title compact-title"><div><p class="eyebrow">By Plant</p><h2>Ageing Stock Quantity</h2></div></div>
+            <svg id="inventoryPlantChart" class="inventory-chart" viewBox="0 0 680 300" role="img" aria-label="Inventory ageing quantities by plant"></svg>
+          </article>
+          <article class="panel inventory-chart-panel">
+            <div class="section-title compact-title"><div><p class="eyebrow">Upload Trend</p><h2>Inventory Value History</h2></div></div>
+            <svg id="inventoryHistoryChart" class="inventory-chart" viewBox="0 0 680 300" role="img" aria-label="Inventory upload value history"></svg>
+          </article>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <div><p class="eyebrow">Plant Summary</p><h2>Inventory Ageing Breakdown</h2></div>
+            <p id="inventoryMethod" class="hint">Upload an agewise inventory Excel to start analysis.</p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Plant</th><th>Parts</th><th>Total Stock</th><th>Total Value</th><th>0-30 Days</th><th>Over 6 Months</th><th>Over 2 Years</th><th>Parts Over 2 Years</th></tr></thead>
+              <tbody id="inventoryPlantRows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title"><div><p class="eyebrow">Attention Parts</p><h2>Highest Ageing Inventory</h2></div></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Plant</th><th>Part Number</th><th>Description</th><th>Total Stock</th><th>Total Value</th><th>0-30 Days</th><th>Over 6 Months</th><th>Over 2 Years</th></tr></thead>
+              <tbody id="inventoryPartRows"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
     </main>
 
     <script src="/app.js?v=filter-criteria-layout"></script>
