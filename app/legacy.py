@@ -1258,6 +1258,39 @@ def zone_part_rows(category, zone, material_group=""):
     zone = normalize_zone(zone)
     if zone not in {"red", "yellow", "green"}:
         zone = "red"
+    if category not in STOCK_ZONE_CATEGORIES:
+        upload, analyzed_rows = latest_analyzed_rows(category)
+        _, failed_rows = latest_failed_rows(category)
+        failed_materials = {str(row.get("material", "")).strip() for row in failed_rows}
+        if zone == "red":
+            source_rows = failed_rows
+            zone_label = "Red Zone"
+        elif zone == "green":
+            source_rows = [
+                row for row in analyzed_rows
+                if str(row.get("material", "")).strip() not in failed_materials
+            ]
+            zone_label = "Green Zone"
+        else:
+            source_rows = []
+            zone_label = "Yellow Zone"
+        rows = []
+        for row in source_rows:
+            group_code = row.get("material_group") or material_group_for(row.get("material"))
+            if material_group and group_code != material_group:
+                continue
+            rows.append({
+                "material": row.get("material", ""),
+                "material_group": group_code,
+                "description": row.get("description", ""),
+                "zone": zone_label,
+                "current_stock": row.get("current_stock", ""),
+                "critical_value": row.get("critical_value", row.get("minimum_stock", "")),
+                "net_consumption": row.get("net_consumption", ""),
+                "plant": STOCK_PLANT_BY_CATEGORY.get(category, ""),
+            })
+        rows.sort(key=lambda item: (item["material_group"], item["material"]))
+        return rows
     stock_zone_analysis = stock_zone_analysis_for_category(category)
     rows = []
     for material in stock_zone_analysis.get("materials", {}).values():
@@ -2184,7 +2217,19 @@ def build_summary():
                     "uploaded": upload_summary["uploaded"],
                     "active": upload_summary["active"],
                     "critical": upload_summary["critical"],
+                    "red": upload_summary["critical"],
+                    "yellow": 0,
+                    "green": max(0, upload_summary["active"] - upload_summary["critical"]),
                 }
+                for group_code, counts in upload_summary["groups"].items():
+                    group_cards[group_code]["zone_analysis"] = {
+                        **group_cards[group_code].get("zone_analysis", {}),
+                        "red": counts["critical"],
+                        "yellow": 0,
+                        "green": max(0, counts["active"] - counts["critical"]),
+                        "active": counts["active"],
+                        "critical": counts["critical"],
+                    }
             else:
                 card_low_stock = stock_zone_dashboard["critical"]
         if category in STOCK_ZONE_CATEGORIES:

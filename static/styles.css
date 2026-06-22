@@ -930,6 +930,31 @@ tr:last-child td {
     width: 100%;
   }
 
+  .zone-chart-head,
+  .zone-chart-actions {
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .zone-chart-actions {
+    justify-content: flex-start;
+  }
+
+  .zone-plant-menu,
+  .zone-plant-menu summary {
+    width: 100%;
+  }
+
+  .zone-plant-options {
+    left: 0;
+    right: auto;
+    width: 100%;
+  }
+
+  .zone-bar-meta {
+    grid-template-columns: 1fr;
+  }
+
   .selected-area {
     align-items: flex-start;
     flex-direction: column;

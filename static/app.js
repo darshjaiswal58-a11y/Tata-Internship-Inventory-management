@@ -10,11 +10,19 @@ let uploadProgressTimer = null;
 let inventoryProgressTimer = null;
 const RED_ZONE_VALUE = "__red_zone__";
 let selectedZone = "red";
+let selectedZonePlantCategories = ["ml_spare"];
 
 const zoneSeries = [
-  { key: "red", label: "Red Zone", color: "#c2410c" },
-  { key: "yellow", label: "Yellow Zone", color: "#d99a00" },
-  { key: "green", label: "Green Zone", color: "#16803c" },
+  { key: "red", label: "Red Zone", color: "#dc3545" },
+  { key: "yellow", label: "Yellow Zone", color: "#ffc107" },
+  { key: "green", label: "Green Zone", color: "#198754" },
+];
+
+const zonePlantOptions = [
+  { key: "ml_spare", plant: "3002", label: "Plant 3002" },
+  { key: "tools", plant: "3004", label: "Plant 3004" },
+  { key: "plant_3003", plant: "3003", label: "Plant 3003" },
+  { key: "plant_3005", plant: "3005", label: "Plant 3005" },
 ];
 
 const categoryLabels = {
@@ -208,6 +216,7 @@ function showInventoryWorkspace() {
 
 async function selectCategory(category) {
   currentCategory = categoryLabels[category] ? category : "ml_spare";
+  resetZonePlantsForCategory();
   currentMaterialGroup = "";
   $("#selectedCategoryTitle").textContent = categoryLabels[currentCategory];
   $("#categorySelect").value = currentCategory;
@@ -389,76 +398,86 @@ function renderFilterCriteriaSummary() {
   detail.textContent = criteriaText;
 }
 
-function currentZoneAnalysis() {
-  const selected = latestSummary?.categories?.[currentCategory] || {};
-  if (isRedZoneSelected()) return selected.zone_analysis || {};
+function zoneAnalysisForCategory(category) {
+  const selected = latestSummary?.categories?.[category] || {};
+  if (isRedZoneSelected() && category === currentCategory) return selected.zone_analysis || {};
   const groupCards = selected.material_groups || {};
   const group = currentMaterialGroup ? groupCards[currentMaterialGroup] || {} : null;
   return group ? group.zone_analysis || {} : selected.zone_analysis || {};
+}
+
+function currentZoneAnalysis() {
+  return selectedZonePlantCategories.reduce((totals, category) => {
+    const analysis = zoneAnalysisForCategory(category);
+    zoneSeries.forEach((zone) => {
+      totals[zone.key] = number(totals[zone.key]) + number(analysis?.[zone.key]);
+    });
+    totals.active = number(totals.active) + number(analysis?.active);
+    return totals;
+  }, { red: 0, yellow: 0, green: 0, active: 0 });
 }
 
 function zoneValue(zoneAnalysis, zone) {
   return Number(zoneAnalysis?.[zone] || 0);
 }
 
+function zoneTotal(zoneAnalysis) {
+  const summed = zoneSeries.reduce((sum, zone) => sum + zoneValue(zoneAnalysis, zone.key), 0);
+  return summed || number(zoneAnalysis?.active);
+}
+
+function zonePercent(count, total) {
+  if (!total) return 0;
+  return Math.round((number(count) / total) * 100);
+}
+
+function renderZonePlantOptions() {
+  const selectedSet = new Set(selectedZonePlantCategories);
+  $("#zonePlantOptions").innerHTML = zonePlantOptions.map((plant) => `
+    <label>
+      <input type="checkbox" value="${plant.key}" ${selectedSet.has(plant.key) ? "checked" : ""}>
+      ${plant.label}
+    </label>
+  `).join("");
+}
+
+function resetZonePlantsForCategory() {
+  selectedZonePlantCategories = zonePlantOptions.some((plant) => plant.key === currentCategory)
+    ? [currentCategory]
+    : ["ml_spare"];
+}
+
 function renderZoneChart(zoneAnalysis) {
-  const svg = $("#zoneLineChart");
-  const width = 640;
-  const height = 280;
-  const left = 58;
-  const right = 24;
-  const top = 24;
-  const bottom = 46;
-  const chartWidth = width - left - right;
-  const chartHeight = height - top - bottom;
-  const values = zoneSeries.map((zone) => zoneValue(zoneAnalysis, zone.key));
-  const maxValue = Math.max(10, ...values);
-  const yMax = Math.ceil(maxValue / 5) * 5;
-  const xFor = (index) => left + (chartWidth / (zoneSeries.length - 1)) * index;
-  const yFor = (value) => top + chartHeight - (value / yMax) * chartHeight;
-  const baseline = yFor(0);
-
-  const grid = [];
-  for (let i = 0; i <= 5; i += 1) {
-    const value = Math.round((yMax / 5) * i);
-    const y = yFor(value);
-    grid.push(`<line class="zone-grid-line" x1="${left}" y1="${y}" x2="${width - right}" y2="${y}"></line>`);
-    grid.push(`<text class="zone-axis-label" x="16" y="${y + 4}">${value}</text>`);
-  }
-  zoneSeries.forEach((zone, index) => {
-    const x = xFor(index);
-    grid.push(`<line class="zone-grid-line" x1="${x}" y1="${top}" x2="${x}" y2="${baseline}"></line>`);
-    grid.push(`<text class="zone-axis-label" x="${x - 24}" y="${height - 14}">${zone.label.replace(" Zone", "")}</text>`);
-  });
-
-  const lines = zoneSeries.map((zone, index) => {
-    const value = zoneValue(zoneAnalysis, zone.key);
-    const x = xFor(index);
-    const y = yFor(value);
-    const path = `M ${left} ${baseline} Q ${x} ${y} ${x} ${y} T ${width - right} ${baseline}`;
+  const chart = $("#zoneBarChart");
+  const total = zoneTotal(zoneAnalysis);
+  const maxValue = Math.max(1, ...zoneSeries.map((zone) => zoneValue(zoneAnalysis, zone.key)));
+  chart.classList.remove("is-loaded");
+  chart.innerHTML = zoneSeries.map((zone) => {
+    const count = zoneValue(zoneAnalysis, zone.key);
+    const percent = zonePercent(count, total);
+    const width = Math.max(2, (count / maxValue) * 100);
     return `
-      <path class="zone-line" data-zone="${zone.key}" data-value="${value}" d="${path}" stroke="${zone.color}"></path>
-      <circle class="zone-point" tabindex="0" data-zone="${zone.key}" data-value="${value}" cx="${x}" cy="${y}" r="8" fill="${zone.color}"></circle>
-      <text class="zone-axis-label" x="${x - 8}" y="${y - 14}">${value}</text>
+      <button class="zone-bar-row ${selectedZone === zone.key ? "is-active" : ""}" type="button"
+        data-zone="${zone.key}" data-count="${count}" data-percent="${percent}" data-zone-label="${zone.label}">
+        <span class="zone-bar-meta">
+          <span class="zone-bar-name">${zone.label}</span>
+          <span class="zone-bar-count">${inventoryNumber(count)} Parts</span>
+          <span class="zone-bar-percent">${percent}%</span>
+        </span>
+        <span class="zone-bar-track">
+          <span class="zone-bar-fill" style="--zone-width:${width}%; background:${zone.color};"></span>
+        </span>
+      </button>
     `;
   }).join("");
-
-  svg.innerHTML = `${grid.join("")}${lines}`;
-  $("#zoneLegend").innerHTML = zoneSeries.map((zone) => `
-    <button type="button" data-zone="${zone.key}">
-      <span class="zone-swatch" style="background:${zone.color}"></span>
-      ${zone.label}: ${zoneValue(zoneAnalysis, zone.key)}
-    </button>
-  `).join("");
+  requestAnimationFrame(() => chart.classList.add("is-loaded"));
   const selected = zoneSeries.find((zone) => zone.key === selectedZone) || zoneSeries[0];
-  $("#zoneChartTitle").textContent = `${selected.label}: ${zoneValue(zoneAnalysis, selected.key)}`;
+  $("#zoneChartTitle").textContent = `${selected.label}: ${inventoryNumber(zoneValue(zoneAnalysis, selected.key))} of ${inventoryNumber(total)} parts`;
 }
 
 function showZoneTooltip(target) {
-  const zone = zoneSeries.find((item) => item.key === target.dataset.zone);
-  if (!zone) return;
   const tooltip = $("#zoneTooltip");
-  tooltip.textContent = `${zone.label}: ${target.dataset.value}`;
+  tooltip.innerHTML = `<strong>${target.dataset.zoneLabel}</strong>${inventoryNumber(target.dataset.count)} Parts<br>${target.dataset.percent}% of total inventory`;
   tooltip.hidden = false;
 }
 
@@ -469,12 +488,18 @@ function hideZoneTooltip() {
 async function loadZoneParts(zoneKey = selectedZone) {
   selectedZone = zoneKey;
   const groupParam = currentMaterialGroup && currentMaterialGroup !== RED_ZONE_VALUE ? currentMaterialGroup : "";
-  const result = await api(`/api/zone-parts?category=${encodeURIComponent(currentCategory)}&zone=${encodeURIComponent(selectedZone)}&material_group=${encodeURIComponent(groupParam)}`);
+  const results = await Promise.all(selectedZonePlantCategories.map((category) => (
+    api(`/api/zone-parts?category=${encodeURIComponent(category)}&zone=${encodeURIComponent(selectedZone)}&material_group=${encodeURIComponent(groupParam)}`)
+  )));
+  const rows = results.flatMap((result) => result.rows || []);
   const zone = zoneSeries.find((item) => item.key === selectedZone) || zoneSeries[0];
-  $("#zoneChartStatus").textContent = `${zone.label}: ${result.value || 0} part(s).`;
+  const plantText = selectedZonePlantCategories
+    .map((category) => zonePlantOptions.find((plant) => plant.key === category)?.plant || category)
+    .join(", ");
+  $("#zoneChartStatus").textContent = `${zone.label}: ${rows.length} part(s) across plant(s) ${plantText}.`;
   $("#zoneDownloadLink").href = `/api/zone-export?category=${encodeURIComponent(currentCategory)}&zone=${encodeURIComponent(selectedZone)}&material_group=${encodeURIComponent(groupParam)}`;
-  $("#zonePartRows").innerHTML = result.rows?.length
-    ? result.rows.map((row) => `
+  $("#zonePartRows").innerHTML = rows.length
+    ? rows.map((row) => `
       <tr>
         <td>${fmt(row.material)}</td>
         <td>${groupLabel(row.material_group)}</td>
@@ -489,6 +514,7 @@ async function loadZoneParts(zoneKey = selectedZone) {
 
 function renderMaterialGroupStats() {
   renderFilterCriteriaSummary();
+  renderZonePlantOptions();
   const selected = latestSummary?.categories?.[currentCategory] || {};
   if (isRedZoneSelected()) {
     const zoneAnalysis = selected.zone_analysis || {};
@@ -915,7 +941,7 @@ $("#materialGroupSelect").addEventListener("change", async (event) => {
   await analyzeGroupCritical();
 });
 
-$("#zoneLineChart").addEventListener("click", (event) => {
+$("#zoneBarChart").addEventListener("click", (event) => {
   const target = event.target.closest("[data-zone]");
   if (!target) return;
   selectedZone = target.dataset.zone;
@@ -925,17 +951,22 @@ $("#zoneLineChart").addEventListener("click", (event) => {
   });
 });
 
-$("#zoneLineChart").addEventListener("mouseover", (event) => {
+$("#zoneBarChart").addEventListener("mouseover", (event) => {
   const target = event.target.closest("[data-zone]");
   if (target) showZoneTooltip(target);
 });
 
-$("#zoneLineChart").addEventListener("mouseout", hideZoneTooltip);
+$("#zoneBarChart").addEventListener("mouseout", hideZoneTooltip);
 
-$("#zoneLegend").addEventListener("click", (event) => {
-  const button = event.target.closest("button[data-zone]");
-  if (!button) return;
-  selectedZone = button.dataset.zone;
+$("#zonePlantOptions").addEventListener("change", (event) => {
+  const input = event.target.closest("input[type='checkbox']");
+  if (!input) return;
+  const checked = [...$("#zonePlantOptions").querySelectorAll("input:checked")].map((item) => item.value);
+  if (!checked.length) {
+    input.checked = true;
+    return;
+  }
+  selectedZonePlantCategories = checked;
   renderZoneChart(currentZoneAnalysis());
   loadZoneParts(selectedZone).catch((error) => {
     $("#zoneChartStatus").textContent = error.message;
