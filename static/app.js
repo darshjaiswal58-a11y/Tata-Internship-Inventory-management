@@ -579,6 +579,10 @@ function inventoryNumber(value) {
   return new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 }).format(number(value));
 }
 
+function inventoryRupees(value) {
+  return `\u20B9${inventoryNumber(value)}`;
+}
+
 function chartEmpty(svg, message) {
   svg.innerHTML = `<text class="empty-label" x="340" y="150" text-anchor="middle">${message}</text>`;
 }
@@ -593,7 +597,7 @@ function renderInventoryPlantChart(plants) {
   const top = 26;
   const bottom = 58;
   const plotHeight = height - top - bottom;
-  const maxValue = Math.max(1, ...plants.flatMap((row) => [number(row.qty_0_30), number(row.over_six_months), number(row.qty_over_2_years)]));
+  const maxValue = Math.max(1, ...plants.flatMap((row) => [number(row.qty_0_90), number(row.over_six_months), number(row.qty_over_2_years)]));
   const groupWidth = (width - left - right) / plants.length;
   const barWidth = Math.max(8, Math.min(28, groupWidth / 4));
   let markup = `<line class="axis" x1="${left}" y1="${height - bottom}" x2="${width - right}" y2="${height - bottom}"/>`;
@@ -604,7 +608,7 @@ function renderInventoryPlantChart(plants) {
   plants.forEach((row, index) => {
     const x = left + index * groupWidth + groupWidth / 2;
     const series = [
-      { value: number(row.qty_0_30), color: "#3b82f6" },
+      { value: number(row.qty_0_90), color: "#3b82f6" },
       { value: number(row.over_six_months), color: "#e3a008" },
       { value: number(row.qty_over_2_years), color: "#c2410c" },
     ];
@@ -615,7 +619,7 @@ function renderInventoryPlantChart(plants) {
     });
     markup += `<text class="chart-label" x="${x}" y="${height - bottom + 22}" text-anchor="middle">${String(row.plant).replaceAll("&", "&amp;").replaceAll("<", "&lt;")}</text>`;
   });
-  markup += `<text class="axis-label" x="${left}" y="16">0-30 days</text><rect x="${left + 58}" y="7" width="12" height="12" fill="#3b82f6"/><text class="axis-label" x="${left + 78}" y="16">Over 6 months</text><rect x="${left + 172}" y="7" width="12" height="12" fill="#e3a008"/><text class="axis-label" x="${left + 192}" y="16">Over 2 years</text><rect x="${left + 282}" y="7" width="12" height="12" fill="#c2410c"/>`;
+  markup += `<text class="axis-label" x="${left}" y="16">0-90 days</text><rect x="${left + 58}" y="7" width="12" height="12" fill="#3b82f6"/><text class="axis-label" x="${left + 78}" y="16">Over 6 months</text><rect x="${left + 172}" y="7" width="12" height="12" fill="#e3a008"/><text class="axis-label" x="${left + 192}" y="16">Over 2 years</text><rect x="${left + 282}" y="7" width="12" height="12" fill="#c2410c"/>`;
   svg.innerHTML = markup;
 }
 
@@ -640,11 +644,11 @@ function renderInventoryHistoryChart(history) {
   let markup = `<line class="axis" x1="${left}" y1="${height - bottom}" x2="${width - right}" y2="${height - bottom}"/>`;
   [0, 0.5, 1].forEach((ratio) => {
     const y = top + plotHeight * (1 - ratio);
-    markup += `<line class="axis" x1="${left}" y1="${y}" x2="${width - right}" y2="${y}" opacity="${ratio ? 0.5 : 1}"/><text class="axis-label" x="${left - 8}" y="${y + 4}" text-anchor="end">${inventoryNumber(maxValue * ratio)}</text>`;
+    markup += `<line class="axis" x1="${left}" y1="${y}" x2="${width - right}" y2="${y}" opacity="${ratio ? 0.5 : 1}"/><text class="axis-label" x="${left - 8}" y="${y + 4}" text-anchor="end">${inventoryRupees(maxValue * ratio)}</text>`;
   });
   markup += `<polyline fill="none" stroke="#0f8b8d" stroke-width="3" points="${points.map((point) => `${point.x},${point.y}`).join(" ")}"/>`;
   points.forEach((point) => {
-    markup += `<circle cx="${point.x}" cy="${point.y}" r="5" fill="#0f8b8d"><title>${point.label}: ${inventoryNumber(point.value)}</title></circle><text class="axis-label" x="${point.x}" y="${height - bottom + 22}" text-anchor="middle">${point.label}</text>`;
+    markup += `<circle cx="${point.x}" cy="${point.y}" r="5" fill="#0f8b8d"><title>${point.label}: ${inventoryRupees(point.value)}</title></circle><text class="axis-label" x="${point.x}" y="${height - bottom + 22}" text-anchor="middle">${point.label}</text>`;
   });
   markup += `<text class="axis-label" x="${left}" y="16">Total inventory value</text>`;
   svg.innerHTML = markup;
@@ -655,14 +659,15 @@ function renderInventory(data) {
   const parts = data.parts || [];
   $("#inventoryPlantCount").textContent = plants.length;
   $("#inventoryPartCount").textContent = inventoryNumber(plants.reduce((sum, row) => sum + number(row.parts_count), 0));
+  $("#inventoryUsedNinetyDays").textContent = inventoryNumber(plants.reduce((sum, row) => sum + number(row.qty_0_90), 0));
   $("#inventoryOverSixMonths").textContent = inventoryNumber(plants.reduce((sum, row) => sum + number(row.over_six_months), 0));
   $("#inventoryOverTwoYears").textContent = inventoryNumber(plants.reduce((sum, row) => sum + number(row.qty_over_2_years), 0));
   $("#inventoryMethod").textContent = data.method || "Upload an agewise inventory Excel to start analysis.";
   $("#inventoryPlantRows").innerHTML = plants.length ? plants.map((row) => `
-    <tr><td>${fmt(row.plant)}</td><td>${inventoryNumber(row.parts_count)}</td><td>${inventoryNumber(row.total_stock)}</td><td>${inventoryNumber(row.total_value)}</td><td>${inventoryNumber(row.qty_0_30)}</td><td>${inventoryNumber(row.over_six_months)}</td><td>${inventoryNumber(row.qty_over_2_years)}</td><td>${inventoryNumber(row.attention_parts)}</td></tr>
+    <tr><td>${fmt(row.plant)}</td><td>${inventoryNumber(row.parts_count)}</td><td>${inventoryNumber(row.total_stock)}</td><td>${inventoryRupees(row.total_value)}</td><td>${inventoryNumber(row.qty_0_90)}</td><td>${inventoryNumber(row.over_six_months)}</td><td>${inventoryNumber(row.qty_over_2_years)}</td><td>${inventoryNumber(row.attention_parts)}</td></tr>
   `).join("") : `<tr><td class="empty" colspan="8">No inventory Excel has been analyzed yet.</td></tr>`;
   $("#inventoryPartRows").innerHTML = parts.length ? parts.map((row) => `
-    <tr><td>${fmt(row.plant)}</td><td>${fmt(row.material)}</td><td>${fmt(row.description)}</td><td>${inventoryNumber(row.total_stock)}</td><td>${inventoryNumber(row.total_value)}</td><td>${inventoryNumber(row.qty_0_30)}</td><td>${inventoryNumber(row.over_six_months)}</td><td>${inventoryNumber(row.qty_over_2_years)}</td></tr>
+    <tr><td>${fmt(row.plant)}</td><td>${fmt(row.material)}</td><td>${fmt(row.description)}</td><td>${inventoryNumber(row.total_stock)}</td><td>${inventoryRupees(row.total_value)}</td><td>${inventoryNumber(row.qty_0_90)}</td><td>${inventoryNumber(row.over_six_months)}</td><td>${inventoryNumber(row.qty_over_2_years)}</td></tr>
   `).join("") : `<tr><td class="empty" colspan="8">No inventory parts to show yet.</td></tr>`;
   renderInventoryPlantChart(plants);
   renderInventoryHistoryChart(data.history || []);

@@ -231,7 +231,7 @@ body:not(.is-admin) nav a[href="#criteria"] {
 }
 
 .inventory-stats {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .inventory-charts {

@@ -1939,6 +1939,7 @@ def process_inventory_upload(file_path, original_name, uploaded_by="", progress_
             "total_stock": 0,
             "total_value": 0,
             "qty_0_30": 0,
+            "qty_0_90": 0,
             "qty_31_60": 0,
             "qty_61_90": 0,
             "qty_91_180": 0,
@@ -1950,6 +1951,11 @@ def process_inventory_upload(file_path, original_name, uploaded_by="", progress_
         })
         plant_summary["total_stock"] += stock
         plant_summary["total_value"] += value
+        plant_summary["qty_0_90"] += (
+            bucket_values["qty_0_30"]
+            + bucket_values["qty_31_60"]
+            + bucket_values["qty_61_90"]
+        )
         plant_summary["over_six_months"] += over_six_months
         for key, bucket_value in bucket_values.items():
             plant_summary[key] += bucket_value
@@ -1960,13 +1966,17 @@ def process_inventory_upload(file_path, original_name, uploaded_by="", progress_
             "description": description,
             "total_stock": 0,
             "total_value": 0,
-            "qty_0_30": 0,
+            "qty_0_90": 0,
             "qty_over_2_years": 0,
             "over_six_months": 0,
         })
         part["total_stock"] += stock
         part["total_value"] += value
-        part["qty_0_30"] += bucket_values["qty_0_30"]
+        part["qty_0_90"] += (
+            bucket_values["qty_0_30"]
+            + bucket_values["qty_31_60"]
+            + bucket_values["qty_61_90"]
+        )
         part["qty_over_2_years"] += bucket_values["qty_over_2_years"]
         part["over_six_months"] += over_six_months
 
@@ -1994,7 +2004,10 @@ def process_inventory_upload(file_path, original_name, uploaded_by="", progress_
     }
     analysis_path = INVENTORY_ANALYSIS_DIR / f"inventory_analysis_{upload_id}.json"
     write_json(analysis_path, analysis)
-    uploads = read_json(INVENTORY_UPLOADS_FILE)
+    uploads = [
+        item for item in read_json(INVENTORY_UPLOADS_FILE)
+        if item.get("file_name") != original_name
+    ]
     upload = {
         "id": upload_id,
         "file_name": original_name,
