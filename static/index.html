@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tata Inventory Criteria Checker</title>
-    <link rel="stylesheet" href="/styles.css?v=filter-criteria-layout">
+    <link rel="stylesheet" href="/styles.css?v=plant-3003-3005">
   </head>
   <body>
     <header class="topbar">
@@ -96,6 +96,34 @@
               <b id="toolsLow">0</b> low-stock items
             </div>
           </button>
+          <button class="category-card" type="button" data-category="plant_3003">
+            <span>Plant 3003</span>
+            <strong id="plant3003Materials">0</strong>
+            <small>Total stock items</small>
+            <div>
+              <b id="plant3003Criteria">0</b> stock items with minimum criteria
+            </div>
+            <div>
+              <b id="plant3003Active">0</b> stock parts from Plant 3003
+            </div>
+            <div>
+              <b id="plant3003Low">0</b> low-stock items
+            </div>
+          </button>
+          <button class="category-card" type="button" data-category="plant_3005">
+            <span>Plant 3005</span>
+            <strong id="plant3005Materials">0</strong>
+            <small>Total stock items</small>
+            <div>
+              <b id="plant3005Criteria">0</b> stock items with minimum criteria
+            </div>
+            <div>
+              <b id="plant3005Active">0</b> stock parts from Plant 3005
+            </div>
+            <div>
+              <b id="plant3005Low">0</b> low-stock items
+            </div>
+          </button>
         </div>
 
         <button id="inventoryLaunchButton" class="inventory-launch" type="button">
@@ -115,6 +143,8 @@
               <select id="categorySelect">
                 <option value="ml_spare">Machinery Spare</option>
                 <option value="tools">Tools</option>
+                <option value="plant_3003">Plant 3003</option>
+                <option value="plant_3005">Plant 3005</option>
               </select>
             </label>
             <div class="filter-criteria">
@@ -268,6 +298,8 @@
             <select id="criteriaAreaSelect">
               <option value="ml_spare">Machinery Spare</option>
               <option value="tools">Tools</option>
+              <option value="plant_3003">Plant 3003</option>
+              <option value="plant_3005">Plant 3005</option>
             </select>
           </label>
           <p class="hint">Criteria shown and saved here apply only to the selected area.</p>
@@ -346,6 +378,8 @@
               <select name="category">
                 <option value="ml_spare">Machinery Spare</option>
                 <option value="tools">Tools</option>
+                <option value="plant_3003">Plant 3003</option>
+                <option value="plant_3005">Plant 3005</option>
               </select>
             </label>
             <label>
@@ -505,6 +539,6 @@
       </section>
     </main>
 
-    <script src="/app.js?v=filter-criteria-layout"></script>
+    <script src="/app.js?v=plant-3003-3005"></script>
   </body>
 </html>

@@ -20,11 +20,15 @@ const zoneSeries = [
 const categoryLabels = {
   ml_spare: "Machinery Spare",
   tools: "Tools",
+  plant_3003: "Plant 3003",
+  plant_3005: "Plant 3005",
 };
 
 const stockFilterCriteriaText = {
   ml_spare: "Machinery stock values show plant 3002 materials from the 180 stock-item Excel.",
   tools: "Tools stock values show plant 3004 materials from the 180 stock-item Excel.",
+  plant_3003: "Plant 3003 stock values show rows from the latest uploaded Excel.",
+  plant_3005: "Plant 3005 stock values show rows from the latest uploaded Excel.",
 };
 
 function currentStockFilterCriteriaText() {
@@ -166,6 +170,8 @@ function applyAuthState(user) {
 function renderCategoryCards(categories) {
   const mlSpare = categories.ml_spare || {};
   const tools = categories.tools || {};
+  const plant3003 = categories.plant_3003 || {};
+  const plant3005 = categories.plant_3005 || {};
   $("#mlSpareMaterials").textContent = mlSpare.materials_count || 0;
   $("#mlSpareCriteria").textContent = mlSpare.criteria_count || 0;
   $("#mlSpareActive").textContent = mlSpare.active_stocks_count || 0;
@@ -174,6 +180,14 @@ function renderCategoryCards(categories) {
   $("#toolsCriteria").textContent = tools.criteria_count || 0;
   $("#toolsActive").textContent = tools.active_stocks_count || 0;
   $("#toolsLow").textContent = tools.low_stock_count || 0;
+  $("#plant3003Materials").textContent = plant3003.materials_count || 0;
+  $("#plant3003Criteria").textContent = plant3003.criteria_count || 0;
+  $("#plant3003Active").textContent = plant3003.active_stocks_count || 0;
+  $("#plant3003Low").textContent = plant3003.low_stock_count || 0;
+  $("#plant3005Materials").textContent = plant3005.materials_count || 0;
+  $("#plant3005Criteria").textContent = plant3005.criteria_count || 0;
+  $("#plant3005Active").textContent = plant3005.active_stocks_count || 0;
+  $("#plant3005Low").textContent = plant3005.low_stock_count || 0;
 }
 
 function showDashboard() {

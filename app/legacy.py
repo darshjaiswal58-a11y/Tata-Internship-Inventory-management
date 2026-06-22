@@ -79,6 +79,8 @@ UPLOAD_PROGRESS_LOCK = Lock()
 CATEGORIES = {
     "ml_spare": "Machinery Spare",
     "tools": "Tools",
+    "plant_3003": "Plant 3003",
+    "plant_3005": "Plant 3005",
 }
 DEFAULT_CATEGORY = "ml_spare"
 RED_ZONE_FILTER = "__red_zone__"
@@ -91,7 +93,10 @@ STOCK_ZONE_ANALYSIS_VERSION = 9
 STOCK_PLANT_BY_CATEGORY = {
     DEFAULT_CATEGORY: "3002",
     "tools": "3004",
+    "plant_3003": "3003",
+    "plant_3005": "3005",
 }
+STOCK_ZONE_CATEGORIES = {DEFAULT_CATEGORY, "tools"}
 
 
 def ensure_dirs():
@@ -1560,14 +1565,13 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
     except Exception as exc:
         raise ValueError(f"Invalid Excel file: {exc}")
     ws = wb.active
-    total_data_rows = max((ws.max_row or 1) - 1, 1)
-    row_iterator = ws.iter_rows(values_only=True)
-    try:
-        header_row = next(row_iterator)
-    except StopIteration:
+    all_rows = list(ws.iter_rows(values_only=True))
+    first_data_index = next((index for index, row in enumerate(all_rows) if row and not all(value is None or value == "" for value in row)), None)
+    if first_data_index is None:
         raise ValueError("Excel sheet is empty.")
 
     progress(14, "Reading Excel headers.")
+    header_row = all_rows[first_data_index]
     headers = [str(value).strip() if value is not None else "" for value in header_row]
     idx = {
         "Purchase Order Date": find_column(headers, ["Purchase Order Date", "PO Date", "Document Date", "Purchase Doc Date"]),
@@ -1578,7 +1582,31 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
         "Days Between": find_column(headers, ["Days Between", "Days_Between", "Ageing Days", "Aging Days", "Lead Time Days"]),
         "Valuated Stock": find_column(headers, ["Valuated Stock", "Current Stock", "Current_Stock", "Stock", "Stock Qty", "Unrestricted Stock", "Qty in unit of entry", "Quantity"]),
         "Movement Type": find_column(headers, ["Movement Type", "Movement type", "MvT", "Movement"]),
+        "Plant": find_column(headers, ["Plant"]),
     }
+    data_start_index = first_data_index + 1
+    material_group_idx = find_column(headers, [
+        "Material Group",
+        "Material Category",
+        "Part Type",
+        "Category",
+    ])
+    headerless_sap_dump = False
+    if idx["Material"] is None and len(header_row) >= 19 and str(header_row[1] or "").strip() in {"3003", "3005"}:
+        headerless_sap_dump = True
+        idx.update({
+            "Material": 0,
+            "Plant": 1,
+            "Material Description": 2,
+            "Movement Type": 4,
+            "Purchase Order Date": 9,
+            "Entry Date": 17,
+            "Quantity": 10,
+            "Valuated Stock": 10,
+            "Days Between": 18,
+        })
+        material_group_idx = 3
+        data_start_index = first_data_index
     if idx["Valuated Stock"] is None:
         idx["Valuated Stock"] = idx["Quantity"]
     required_labels = ["Material", "Quantity", "Valuated Stock"]
@@ -1592,12 +1620,9 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
             + ". Accepted alternatives include SAP headers like Posting Date, Document Date, Qty in unit of entry, and Quantity."
         )
     progress(18, f"Analyzing {CATEGORIES.get(category, category)} rows.")
-    material_group_idx = find_column(headers, [
-        "Material Group",
-        "Material Category",
-        "Part Type",
-        "Category",
-    ])
+    row_iterator = all_rows[data_start_index:]
+    total_data_rows = max(len(row_iterator), 1)
+    category_plant = STOCK_PLANT_BY_CATEGORY.get(category, "")
     upload_id = uuid.uuid4().hex[:10]
     imported_rows = 0
     received_rows = 0
@@ -1634,8 +1659,9 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
             return True
         return parse_date_value(value) is not None
 
-    for row_index, raw in enumerate(row_iterator, start=2):
-        processed_rows = row_index - 1
+    for offset, raw in enumerate(row_iterator, start=1):
+        row_index = data_start_index + offset
+        processed_rows = offset
         if processed_rows == 1 or processed_rows % 50 == 0 or processed_rows >= total_data_rows:
             row_percent = 18 + min(67, int((processed_rows / total_data_rows) * 67))
             progress(row_percent, f"Analyzed {min(processed_rows, total_data_rows)} of {total_data_rows} rows.")
@@ -1657,6 +1683,10 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
 
         material = str(material_cell or "").strip()
         if not material:
+            continue
+        plant_cell = cell("Plant")
+        row_plant = str(plant_cell or "").strip()
+        if category_plant and row_plant and row_plant != category_plant:
             continue
 
         description = str(cell("Material Description") or "").strip()
@@ -1688,7 +1718,8 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
             row_errors.append(f"Row {row_index}: 'Valuated Stock/Stock Quantity' must be numeric (got: {vs_cell!r})")
         # Days Between may be empty for some sheets, but if present must be numeric
         if db_cell is not None and db_cell != "" and not _is_number(db_cell):
-            row_errors.append(f"Row {row_index}: 'Days Between' must be numeric (got: {db_cell!r})")
+            if not (headerless_sap_dump and str(db_cell).strip().upper().startswith("Z-")):
+                row_errors.append(f"Row {row_index}: 'Days Between' must be numeric (got: {db_cell!r})")
 
         # Validate date fields (if present)
         if not _validate_date_field(ed_cell):
@@ -1709,7 +1740,7 @@ def process_upload(file_path, original_name, category=DEFAULT_CATEGORY, uploaded
         if db_cell is None or db_cell == "":
             days_between = (entry_date_value - purchase_order_date_value).days if entry_date_value and purchase_order_date_value else 0
         else:
-            days_between = parse_number(db_cell)
+            days_between = 0 if headerless_sap_dump and str(db_cell).strip().upper().startswith("Z-") else parse_number(db_cell)
         entry_date = normalize_date(ed_cell)
         purchase_order_date = normalize_date(pod_cell)
         movement_code = str(movement_type_cell or "").strip()
@@ -2137,7 +2168,7 @@ def build_summary():
                     "active_stocks_count": 0,
                     "zone_analysis": stock_zone_groups.get(group_code, {}),
                 })
-                if category not in STOCK_PLANT_BY_CATEGORY:
+                if category not in STOCK_ZONE_CATEGORIES:
                     group_cards[group_code]["materials_count"] = counts["uploaded"]
                     group_cards[group_code]["active_stocks_count"] = counts["active"]
                     group_cards[group_code]["low_stock_count"] = counts["critical"]
@@ -2147,7 +2178,7 @@ def build_summary():
                         "active": counts["active"],
                         "critical": counts["critical"],
                     }
-            if category not in STOCK_PLANT_BY_CATEGORY:
+            if category not in STOCK_ZONE_CATEGORIES:
                 stock_zone_dashboard = {
                     **stock_zone_dashboard,
                     "uploaded": upload_summary["uploaded"],
@@ -2156,7 +2187,7 @@ def build_summary():
                 }
             else:
                 card_low_stock = stock_zone_dashboard["critical"]
-        if category in STOCK_PLANT_BY_CATEGORY:
+        if category in STOCK_ZONE_CATEGORIES:
             card_low_stock = stock_zone_dashboard["critical"]
         category_cards[category] = {
             "key": category,
@@ -2167,7 +2198,7 @@ def build_summary():
             "low_stock_count": card_low_stock,
             "uploads_count": len(category_uploads),
             "latest_upload": latest_upload,
-            "active_stocks_count": stock_zone_dashboard["active"] if category in STOCK_PLANT_BY_CATEGORY else (upload_summary["active"] if latest_upload else 0),
+            "active_stocks_count": stock_zone_dashboard["active"] if category in STOCK_ZONE_CATEGORIES else (upload_summary["active"] if latest_upload else 0),
             "active_quantity_used": latest_upload.get("used_quantity_total", 0) if latest_upload else 0,
             "zone_counts": stock_zone_analysis.get("counts", {"red": 0, "yellow": 0, "green": 0}),
             "zone_analysis": stock_zone_dashboard,
