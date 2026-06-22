@@ -644,6 +644,7 @@ select {
   background: var(--white);
   border: 1px solid var(--line);
   border-radius: 8px;
+  color: var(--ink);
   box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
   cursor: pointer;
   display: grid;
@@ -654,6 +655,8 @@ select {
 
 .zone-bar-row:hover,
 .zone-bar-row.is-active {
+  background: var(--white);
+  color: var(--ink);
   border-color: #9cb5cf;
   box-shadow: 0 16px 32px rgba(15, 23, 42, 0.1);
   transform: translateY(-1px);
@@ -704,11 +707,11 @@ select {
   border-radius: 6px;
   color: var(--white);
   font-size: 12px;
-  left: 12px;
+  left: 0;
   padding: 7px 9px;
   pointer-events: none;
   position: absolute;
-  top: 12px;
+  top: 0;
   z-index: 3;
 }
 

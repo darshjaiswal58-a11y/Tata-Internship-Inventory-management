@@ -475,9 +475,12 @@ function renderZoneChart(zoneAnalysis) {
   $("#zoneChartTitle").textContent = `${selected.label}: ${inventoryNumber(zoneValue(zoneAnalysis, selected.key))} of ${inventoryNumber(total)} parts`;
 }
 
-function showZoneTooltip(target) {
+function showZoneTooltip(target, event) {
   const tooltip = $("#zoneTooltip");
+  const bounds = $("#zoneBarChart").getBoundingClientRect();
   tooltip.innerHTML = `<strong>${target.dataset.zoneLabel}</strong>${inventoryNumber(target.dataset.count)} Parts<br>${target.dataset.percent}% of total inventory`;
+  tooltip.style.left = `${Math.min(Math.max(event.clientX - bounds.left + 12, 8), bounds.width - 170)}px`;
+  tooltip.style.top = `${Math.max(event.clientY - bounds.top + 12, 8)}px`;
   tooltip.hidden = false;
 }
 
@@ -951,9 +954,9 @@ $("#zoneBarChart").addEventListener("click", (event) => {
   });
 });
 
-$("#zoneBarChart").addEventListener("mouseover", (event) => {
+$("#zoneBarChart").addEventListener("mousemove", (event) => {
   const target = event.target.closest("[data-zone]");
-  if (target) showZoneTooltip(target);
+  if (target) showZoneTooltip(target, event);
 });
 
 $("#zoneBarChart").addEventListener("mouseout", hideZoneTooltip);
