@@ -175,17 +175,22 @@
             <section class="zone-chart-panel">
               <div class="zone-chart-head">
                 <div>
-                  <span>Zone Trend</span>
+                  <span>Critical Inventory Status</span>
                   <strong id="zoneChartTitle">All zones</strong>
                 </div>
-                <a id="zoneDownloadLink" class="download" href="/api/zone-export?category=ml_spare&zone=red">Download Excel</a>
+                <div class="zone-chart-actions">
+                  <details class="zone-plant-menu">
+                    <summary>Plants</summary>
+                    <div id="zonePlantOptions" class="zone-plant-options"></div>
+                  </details>
+                  <a id="zoneDownloadLink" class="download" href="/api/zone-export?category=ml_spare&zone=red">Download Excel</a>
+                </div>
               </div>
               <div class="zone-chart-wrap">
-                <svg id="zoneLineChart" class="zone-line-chart" viewBox="0 0 640 280" role="img" aria-label="Red Yellow Green zone line chart"></svg>
+                <div id="zoneBarChart" class="zone-bar-chart" role="img" aria-label="Red Yellow Green zone distribution chart"></div>
                 <div id="zoneTooltip" class="zone-tooltip" hidden></div>
               </div>
-              <div id="zoneLegend" class="zone-legend"></div>
-              <p id="zoneChartStatus" class="status">Click a line or point to view parts in that zone.</p>
+              <p id="zoneChartStatus" class="status">Click a zone bar to view parts in that zone.</p>
             </section>
           </div>
           <div class="table-wrap compact-table zone-parts-table">
